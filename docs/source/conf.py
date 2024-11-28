@@ -5,12 +5,12 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 # -- Project information
 
-project = 'mistree'
-copyright = '2021, Krishna Naidoo'
+project = 'demistree'
+copyright = '2024, Krishna Naidoo'
 author = 'Krishna Naidoo'
 
-release = '1.3'
-version = release+'.1'
+release = '0.0'
+version = release+'.0'
 
 # -- General configuration
 

@@ -1,58 +1,41 @@
-# MiSTree
+# DeMiSTree - Delaunay and Minimum Spanning Tree construction and analysis python module
 
-> **_WARNING:_** Not ready for use. This is a development branch for a future version 2 release. 
-
-|               |                                       |
-|---------------|---------------------------------------|
-| Author        | Krishna Naidoo                        |          
-| Version       | 2.0.0-alpha-0                         |
-| Repository    | https://github.com/knaidoo29/mistree  |
-| Documentation | https://mistree.rtfd.io/              |
-
-[![PyPI version](https://badge.fury.io/py/mistree.svg)](https://badge.fury.io/py/mistree)
-[![Build Status](https://travis-ci.org/knaidoo29/mistree.svg?branch=master)](https://travis-ci.org/knaidoo29/mistree)
-[![codecov](https://codecov.io/gh/knaidoo29/mistree/branch/master/graph/badge.svg)](https://codecov.io/gh/knaidoo29/mistree)
-[![Docs](https://readthedocs.org/projects/mistree/badge/?version=latest)](https://mistree.readthedocs.io/en/latest/?badge=latest)
-[![status](https://joss.theoj.org/papers/461d79e9e5faf21029c0a7b1c928be28/status.svg)](https://joss.theoj.org/papers/461d79e9e5faf21029c0a7b1c928be28)
-[![DOI](https://zenodo.org/badge/170473458.svg)](https://zenodo.org/badge/latestdoi/170473458)
-[![License:MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/knaidoo29/mistree/master?filepath=tutorials%2Fnotebooks%2F)
-[![ascl](https://img.shields.io/badge/ascl-1910.016-blue.svg?colorB=262255)](http://ascl.net/1910.016)
-
-> **_NOTE:_** Version 2 is a complete rewrite of the MiSTree python module. Version 2 improves all the functions and classes from version 1 and adds new powerful analysis functions for structure finding. This makes version 2 a substantially more powerful module for the analysis of minimum spanning trees (MST) and point processes. To improve the readability and capabilities of MiSTree we have taken the liberty to change function names and classes. This means you can do a lot more with MiSTree than you could do before but this also means that you cannot seamlessly transition from version 1 to 2. We suggest you transition when you have the time and in the meantime continue to use version 1.2.0 whose documentation remains at https://knaidoo29.github.io/mistreedoc/ which can be used to download and install this earlier version.
+|               |                                         |
+|---------------|-----------------------------------------|
+| Author        | Krishna Naidoo                          |          
+| Version       | 0.0.0-dev                               |
+| Repository    | https://github.com/knaidoo29/demistree  |
+| Documentation | https://mistree.rtfd.io/                |
 
 ## Introduction
 
-The *minimum spanning tree* (MST), a graph constructed from a distribution of points, draws lines between pairs of points so that all points are linked in a single skeletal structure that contains no loops and has minimal total edge length. The MST has been used in a broad range of scientific fields such as particle physics, in astronomy and cosmology. Its success in these fields has been driven by its sensitivity to the spatial distribution of points and the patterns within. ``MiSTree``, a public ``Python`` package, allows a user to construct the MST in a variety of coordinates systems, including Celestial coordinates used in astronomy. The package enables the MST to be constructed quickly by initially using a *k*-nearest neighbour graph (*k* NN, rather than a matrix of pairwise distances) which is then fed to Kruskal's algorithm to construct the MST. ``MiSTree`` enables a user to measure the statistics of the MST and provides classes for binning the MST statistics (into histograms) and plotting the distributions. Applying the MST will enable the inclusion of high-order statistics information from the cosmic web which can provide additional information to improve cosmological parameter constraints. This information has not been fully exploited due to the computational cost of calculating *N*-point statistics. ``MiSTree`` was designed to be used in cosmology but could be used in any field which requires extracting non-Gaussian information from point distributions.
+The *minimum spanning tree* (MST), a graph constructed from a distribution of points, draws lines between pairs of points so that all points are linked in a single skeletal structure that contains no loops and has minimal total edge length. The MST has been used in a broad range of scientific fields such as particle physics, in astronomy and cosmology. Its success in these fields has been driven by its sensitivity to the spatial distribution of points and the patterns within. ``DeMiSTree``, a public ``Python`` package, allows a user to construct the MST in a variety of coordinates systems, including Celestial coordinates used in astronomy. The package enables the MST to be constructed quickly by initially using a *k*-nearest neighbour graph (*k* NN, rather than a matrix of pairwise distances) which is then fed to Kruskal's algorithm to construct the MST. ``DeMiSTree`` enables a user to measure the statistics of the MST and provides classes for binning the MST statistics (into histograms) and plotting the distributions. Applying the MST will enable the inclusion of high-order statistics information from the cosmic web which can provide additional information to improve cosmological parameter constraints. This information has not been fully exploited due to the computational cost of calculating *N*-point statistics. ``DeMiSTree`` was designed to be used in cosmology but could be used in any field which requires extracting non-Gaussian information from point distributions.
 
 ## Dependencies
 
-* Python 3.4+
-* Fortran compiler such as gfortran or ifort.
+* Python >= 3.7
 * `numpy`
+* `numba`
 * `matplotlib`
 * `scipy`
 * `scikit-learn`
-* `f2py` (should be installed with numpy)
 
 For testing you will require `nose` or `pytest`.
 
 
 ## Installation
 
-> **_WINDOWS:_**: Unfortunately for users of Windows MiSTree was developed and tested on Macs and Linux. While we expect MiSTree to work on Windows we can't be certain that this will be free of errors. Since the developers have limited experience with windows we will not be able to provide any substantive support for Windows related issues. If you think you can contribute to making MiSTree work reliably on Windows please feel free to contact us or create a branch and make the appropriate edits for the installation.
-
 MiSTree can be installed as follows:
 
 ```
-pip install mistree [--user]
+pip install demistree [--user]
 ```
 The `--user` is optional and only required if you don’t have write permission. If you
 are using a windows machine this may not work, in this case (or as an alternative to pip) clone the repository,
 
 ```
-git clone https://github.com/knaidoo29/mistree.git
-cd mistree
+git clone https://github.com/knaidoo29/demistree.git
+cd demistree
 ```
 
 and install by either running
@@ -68,15 +51,15 @@ python setup.py build
 python setup.py install
 ```
 
-Similarly, if you would like to work and edit mistree you can clone the repository and install an editable version:
+Similarly, if you would like to work and edit `demistree` you can clone the repository and install an editable version:
 
 ```
-git clone https://github.com/knaidoo29/mistree.git
-cd mistree
+git clone https://github.com/knaidoo29/demistree.git
+cd demistree
 pip install -e . [--user]
 ```
 
-From the `mistree` directory you can then test the install using `nose`:
+From the `demistree` directory you can then test the install using `nose`:
 
 ```
 python setup.py test
@@ -91,7 +74,7 @@ python -m pytest
 You should now be able to import the module:
 
 ```python
-import mistree as mist
+import demistree as dmist
 ```
 
 ## Notes
