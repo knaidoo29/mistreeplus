@@ -1,15 +1,15 @@
-# DeMiSTree - Delaunay and Minimum Spanning Tree construction and analysis python module
+# MiSTreePlus
 
-|               |                                         |
-|---------------|-----------------------------------------|
-| Author        | Krishna Naidoo                          |          
-| Version       | 0.0.0-dev                               |
-| Repository    | https://github.com/knaidoo29/demistree  |
-| Documentation | https://mistree.rtfd.io/                |
+|               |                                           |
+|---------------|-------------------------------------------|
+| Author        | Krishna Naidoo                            |          
+| Version       | 0.0.0-dev                                 |
+| Repository    | https://github.com/knaidoo29/mistreeplus  |
+| Documentation | https://mistree.rtfd.io/                  |
 
 ## Introduction
 
-The *minimum spanning tree* (MST), a graph constructed from a distribution of points, draws lines between pairs of points so that all points are linked in a single skeletal structure that contains no loops and has minimal total edge length. The MST has been used in a broad range of scientific fields such as particle physics, in astronomy and cosmology. Its success in these fields has been driven by its sensitivity to the spatial distribution of points and the patterns within. ``DeMiSTree``, a public ``Python`` package, allows a user to construct the MST in a variety of coordinates systems, including Celestial coordinates used in astronomy. The package enables the MST to be constructed quickly by initially using a *k*-nearest neighbour graph (*k* NN, rather than a matrix of pairwise distances) which is then fed to Kruskal's algorithm to construct the MST. ``DeMiSTree`` enables a user to measure the statistics of the MST and provides classes for binning the MST statistics (into histograms) and plotting the distributions. Applying the MST will enable the inclusion of high-order statistics information from the cosmic web which can provide additional information to improve cosmological parameter constraints. This information has not been fully exploited due to the computational cost of calculating *N*-point statistics. ``DeMiSTree`` was designed to be used in cosmology but could be used in any field which requires extracting non-Gaussian information from point distributions.
+The *minimum spanning tree* (MST), a graph constructed from a distribution of points, draws lines between pairs of points so that all points are linked in a single skeletal structure that contains no loops and has minimal total edge length. The MST has been used in a broad range of scientific fields such as particle physics, in astronomy and cosmology. Its success in these fields has been driven by its sensitivity to the spatial distribution of points and the patterns within. ``MiSTreePlus``, a public ``Python`` package, allows a user to construct the MST in a variety of coordinates systems, including Celestial coordinates used in astronomy. The package enables the MST to be constructed quickly by initially using a *k*-nearest neighbour graph (*k* NN, rather than a matrix of pairwise distances) which is then fed to Kruskal's algorithm to construct the MST. ``MiSTreePlus`` enables a user to measure the statistics of the MST and provides classes for binning the MST statistics (into histograms) and plotting the distributions. Applying the MST will enable the inclusion of high-order statistics information from the cosmic web which can provide additional information to improve cosmological parameter constraints. This information has not been fully exploited due to the computational cost of calculating *N*-point statistics. ``MiSTreePlus`` was designed to be used in cosmology but could be used in any field which requires extracting non-Gaussian information from point distributions.
 
 ## Dependencies
 
@@ -28,14 +28,14 @@ For testing you will require `nose` or `pytest`.
 MiSTree can be installed as follows:
 
 ```
-pip install demistree [--user]
+pip install mistreeplus [--user]
 ```
 The `--user` is optional and only required if you don’t have write permission. If you
 are using a windows machine this may not work, in this case (or as an alternative to pip) clone the repository,
 
 ```
-git clone https://github.com/knaidoo29/demistree.git
-cd demistree
+git clone https://github.com/knaidoo29/mistreeplus.git
+cd mistreeplus
 ```
 
 and install by either running
@@ -51,15 +51,15 @@ python setup.py build
 python setup.py install
 ```
 
-Similarly, if you would like to work and edit `demistree` you can clone the repository and install an editable version:
+Similarly, if you would like to work and edit `mistreeplus` you can clone the repository and install an editable version:
 
 ```
-git clone https://github.com/knaidoo29/demistree.git
-cd demistree
+git clone https://github.com/knaidoo29/mistreeplus.git
+cd mistreeplus
 pip install -e . [--user]
 ```
 
-From the `demistree` directory you can then test the install using `nose`:
+From the `mistreeplus` directory you can then test the install using `nose`:
 
 ```
 python setup.py test
@@ -74,7 +74,7 @@ python -m pytest
 You should now be able to import the module:
 
 ```python
-import demistree as dmist
+import mistreeplus as dmist
 ```
 
 ## Notes

@@ -7,9 +7,9 @@ with open(path.join(this_directory, 'README.md')) as f:
     long_description = f.read()
 
 setup(
-    name="demistree",
+    name="mistreeplus",
     version="0.0.0-dev",
-    description= "A python package for constructing and analysing delaunay tesselations and the minimum spanning tree",
+    description= "A python package for advanced analysis of minimum spanning trees.",
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://knaidoo29.github.io/mistreedoc/',
@@ -21,8 +21,8 @@ setup(
         "numba",
         "numpy",
         "matplotlib",
-        "scikit-learn",
         "scipy",
+        "scikit-learn",
     ],
     python_requires=">=3.7",
     classifiers=[
