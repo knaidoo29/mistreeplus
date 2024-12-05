@@ -23,7 +23,7 @@ def dotvector3(a: np.ndarray, b: np.ndarray) -> float:
 
 
 @njit
-def dot3by3mat3vec(a: np.narray, b: np.ndarray) -> float:
+def dot3by3mat3vec(a: np.ndarray, b: np.ndarray) -> float:
     """
     Calculates the dot product of a 3x3 matrix and a vector of length 3.
 

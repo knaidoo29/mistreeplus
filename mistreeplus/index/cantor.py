@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Union
+from typing import Union, Tuple
 
 
 def cantor_pair(
@@ -31,7 +31,7 @@ def cantor_pair(
 
 def uncantor_pair(
     pi: Union[int, np.ndarray]
-) -> tuple(Union[int, np.ndarray], Union[int, np.ndarray]):
+) -> Tuple[Union[int, np.ndarray], Union[int, np.ndarray]]:
     """
     Reverses Cantor pairing function to determine the two input integers.
 

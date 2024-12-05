@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.sparse import csr_matrix
 from scipy.spatial import Delaunay as scDelaunay
 
 from . import convert

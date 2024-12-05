@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Tuple
 
 from . import cart
 from . import polar
@@ -70,7 +71,7 @@ def usphere(
     mins: list[float] = [0.0, 0.0],
     maxs: list[float] = [2.0 * np.pi, np.pi],
     units: str = "rads",
-) -> tuple(np.ndarray, np.ndarray):
+) -> Tuple[np.ndarray, np.ndarray]:
     """
     Generates randoms on a unit sphere.
 

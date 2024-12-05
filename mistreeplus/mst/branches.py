@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Optional
+from typing import Optional, Tuple
 
 from .. import coords
 
@@ -10,7 +10,7 @@ def _find_branches(
     deg1: np.ndarray,
     deg2: np.ndarray,
     bcutfreq: int = 1000,
-) -> tuple(list[int], list[int]):
+) -> Tuple[list[int], list[int]]:
     """
     Finds the branch indexes for each branch in the MST.
 
@@ -179,7 +179,7 @@ def find_branches(
     theta: Optional[np.ndarray] = None,
     bcutfreq: int = 1000,
     mode: str = "2D",
-) -> tuple(list[int], list[int]):
+) -> Tuple[list[int], list[int]]:
     """
     Finds the length of branches for large sets of data where a rapid increase in speed is achieved by subdividing
     the full data set and finding branches in each sub division and then completing branches that straddle across the
@@ -371,7 +371,7 @@ def get_branch_weight(branch_ind: list[int], weight: np.ndarray) -> np.ndarray:
 
 
 def get_branch_end_index(
-    edge_ind: np.ndarray, edge_deg: np.ndarray, branch_ind: list[ind]
+    edge_ind: np.ndarray, edge_deg: np.ndarray, branch_ind: list[int]
 ) -> np.ndarray:
     """
     Gets the index of the nodes at the extreme end of each branch.

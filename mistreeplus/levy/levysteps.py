@@ -25,7 +25,7 @@ def generate_levy_steps(size: int, t0: float, alpha: float) -> np.ndarray:
 
 
 def generate_adj_levy_steps(
-    size: int, t0: float, ts: float, alpha: float, beta: float, gamma: Float
+    size: int, t0: float, ts: float, alpha: float, beta: float, gamma: float
 ) -> np.ndarray:
     """
     Generates the adjusted Levy flight steps to be used for random walk simulations.

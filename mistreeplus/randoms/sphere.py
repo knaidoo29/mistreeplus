@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Tuple
 
 from . import cart
 from . import polar
@@ -95,7 +96,7 @@ def sphere(
     mins: list[float] = [0.0, 0.0, 0.0],
     max: list[float] = [1.0, 2.0 * np.pi, np.pi],
     units: str = "rads",
-) -> tuple(np.ndarray, np.ndarray, np.ndarray):
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Generates randoms in spherical polar coordinates.
 

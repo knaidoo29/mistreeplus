@@ -1,4 +1,3 @@
-
 from .coords import check_angle_units
 from .coords import check_phi_in_range
 from .coords import check_ra_in_range

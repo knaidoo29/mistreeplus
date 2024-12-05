@@ -1,5 +1,5 @@
 import numpy as np
-from typing import Union
+from typing import Union, Tuple
 
 from .. import check
 
@@ -51,9 +51,9 @@ def sphere2cart(
     phi: Union[float, np.ndarray],
     theta: Union[float, np.ndarray],
     units: str = "rads",
-) -> tuple(
+) -> Tuple[
     Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]
-):
+]:
     """
     Converts spherical polar coordinates into cartesian coordinates.
 
@@ -91,7 +91,7 @@ def sphere2cart_radec(
     ra: Union[float, np.ndarray],
     dec: Union[float, np.ndarray],
     units: str = "rads",
-) -> tuple(Union[float, np.ndarray], Union[float, np.ndarray]):
+) -> Tuple[Union[float, np.ndarray], Union[float, np.ndarray]]:
     """
     Converts celestial RA and DEC to cartesian coordinates.
 
@@ -124,9 +124,9 @@ def cart2sphere(
     y: Union[float, np.ndarray],
     z: Union[float, np.ndarray],
     units: str = "rads",
-) -> tuple(
+) -> Tuple[
     Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]
-):
+]:
     """
     Returns spherical polar coordinates for a given set of cartesian coordinates,
     assuming the center is at the origin.
@@ -174,9 +174,9 @@ def cart2sphere_radec(
     y: Union[float, np.ndarray],
     z: Union[float, np.ndarray],
     units: str = "rads",
-) -> tuple(
+) -> Tuple[
     Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]
-):
+]:
     """
     Returns celestial coordinates for a given set of cartesian coordinates, assuming
     the center is at the origin.

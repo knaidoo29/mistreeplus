@@ -1,4 +1,5 @@
 import numpy as np
+from typing import Tuple
 
 from . import cart
 
@@ -65,7 +66,7 @@ def polar(
     mins: list[float] = [0.0, 0.0],
     maxs: list[float] = [1.0, 2.0 * np.pi],
     units: str = "rads",
-) -> tuple(np.ndarray, np.ndarray):
+) -> Tuple[np.ndarray, np.ndarray]:
     """
     Generates randoms in polar coordinates.
 

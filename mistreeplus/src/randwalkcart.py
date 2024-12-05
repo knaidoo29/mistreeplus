@@ -1,5 +1,6 @@
 import numpy as np
 from numba import njit
+from typing import Tuple
 
 
 @njit
@@ -35,7 +36,7 @@ def randwalkcart2d(
     x0: float,
     y0: float,
     useperiodic: bool,
-) -> tuple(np.ndarray, np.ndarray):
+) -> Tuple[np.ndarray, np.ndarray]:
     """
     Generates a random walk on a 2D grid.
 
@@ -95,7 +96,7 @@ def randwalkcart3d(
     y0: float,
     z0: float,
     useperiodic: bool,
-) -> tuple(np.ndarray, np.ndarray, np.ndarray):
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Generates a random walk on a 3D grid.
 

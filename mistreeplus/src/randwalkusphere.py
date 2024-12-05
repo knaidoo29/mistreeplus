@@ -1,11 +1,12 @@
 import numpy as np
 from numba import njit
+from typing import Tuple
 
 from . import linalg
 
 
 @njit
-def usphere_rotate(
+def usphererotate(
     phi: float,
     theta: float,
     phi_start: float,
@@ -85,9 +86,9 @@ def usphere_rotate(
 
 
 @njit
-def rand_walk_usphere(
+def randwalkusphere(
     steps: int, prand: np.ndarray, phi0: float, theta0: float
-) -> tuple(np.ndarray, np.ndarray, np.ndarray):
+) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Generates a random walk on a unit sphere.
 

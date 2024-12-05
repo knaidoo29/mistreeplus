@@ -1,7 +1,9 @@
+import numpy as np
 from scipy.sparse import csr_matrix
+from typing import Tuple
 
 
-def graph2data(graph: csr_matrix) -> tuple(np.ndarray, np.ndarray, np.ndarray):
+def graph2data(graph: csr_matrix) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Returns the index and data of a sparse csr_matrix
 
