@@ -7,8 +7,8 @@ from .. import check
 
 
 def usphere_phi(
-    size : int, phimin : float = 0., phimax : float = 2.*np.pi, units : str = 'rads'
-    ) -> np.ndarray:
+    size: int, phimin: float = 0.0, phimax: float = 2.0 * np.pi, units: str = "rads"
+) -> np.ndarray:
     """
     Generates random phis on a unit sphere.
 
@@ -33,8 +33,8 @@ def usphere_phi(
 
 
 def usphere_theta(
-    size : int, thetamin : float = 0., thetamax : float = np.pi, units : str = 'rads'
-    ) -> np.ndarray:
+    size: int, thetamin: float = 0.0, thetamax: float = np.pi, units: str = "rads"
+) -> np.ndarray:
     """
     Generates random theta values from a unit sphere.
 
@@ -57,18 +57,20 @@ def usphere_theta(
     check.check_angle_units(units)
     check.check_theta_in_range(thetamin, units)
     check.check_theta_in_range(thetamax, units)
-    if units == 'degs':
+    if units == "degs":
         thetamin = np.deg2rad(thetamin)
         thetamax = np.deg2rad(thetamax)
     u = cart.cart1d(size)
-    trand = np.arccos(np.cos(thetamin) - (np.cos(thetamin) - np.cos(thetamax))*u)
+    trand = np.arccos(np.cos(thetamin) - (np.cos(thetamin) - np.cos(thetamax)) * u)
     return trand
 
 
 def usphere(
-    size : int, mins : list[float] = [0., 0.], maxs : list[float] = [2.*np.pi, np.pi],
-    units : str = 'rads'
-    ) -> tuple(np.ndarray, np.ndarray):
+    size: int,
+    mins: list[float] = [0.0, 0.0],
+    maxs: list[float] = [2.0 * np.pi, np.pi],
+    units: str = "rads",
+) -> tuple(np.ndarray, np.ndarray):
     """
     Generates randoms on a unit sphere.
 

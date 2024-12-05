@@ -7,7 +7,7 @@ from .. import coords
 from .. import index
 
 
-def construct_delaunay2D(x : np.ndarray, y : np.ndarray) -> csr_matrix:
+def construct_delaunay2D(x: np.ndarray, y: np.ndarray) -> csr_matrix:
     """
     Constructs the Delaunay graph from 2D points.
 
@@ -36,7 +36,7 @@ def construct_delaunay2D(x : np.ndarray, y : np.ndarray) -> csr_matrix:
     return del_graph
 
 
-def construct_delaunay3D(x : np.ndarray, y : np.ndarray, z : np.ndarray) -> csr_matrix:
+def construct_delaunay3D(x: np.ndarray, y: np.ndarray, z: np.ndarray) -> csr_matrix:
     """
     Constructs the Delaunay graph from 3D points.
 
@@ -54,8 +54,12 @@ def construct_delaunay3D(x : np.ndarray, y : np.ndarray, z : np.ndarray) -> csr_
     # construct Delaunay triangulation
     delaunay = scDelaunay(vert)
     tri = delaunay.simplices
-    ind1 = np.concatenate([tri[:, 0], tri[:, 0], tri[:, 0], tri[:, 1], tri[:, 1], tri[:, 2]])
-    ind2 = np.concatenate([tri[:, 1], tri[:, 2], tri[:, 3], tri[:, 2], tri[:, 3], tri[:, 3]])
+    ind1 = np.concatenate(
+        [tri[:, 0], tri[:, 0], tri[:, 0], tri[:, 1], tri[:, 1], tri[:, 2]]
+    )
+    ind2 = np.concatenate(
+        [tri[:, 1], tri[:, 2], tri[:, 3], tri[:, 2], tri[:, 3], tri[:, 3]]
+    )
     ind = index.cantor_pair(ind1, ind2)
     ind = np.sort(ind)
     ind = np.unique(ind)

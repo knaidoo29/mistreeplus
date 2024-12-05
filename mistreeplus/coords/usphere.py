@@ -6,9 +6,8 @@ from .. import check
 
 
 def usphere2cart(
-    phi : Union[float, np.ndarray], theta : Union[float, np.ndarray],
-    units : str = 'rads'
-    ) -> Union[float, np.ndarray]:
+    phi: Union[float, np.ndarray], theta: Union[float, np.ndarray], units: str = "rads"
+) -> Union[float, np.ndarray]:
     """
     Project coordinates on a sphere into cartesian coordinates on a unit sphere.
 
@@ -27,15 +26,14 @@ def usphere2cart(
         Cartesian coordinates.
     """
     if isinstance(phi) is True:
-        return sphere.sphere2cart(1., phi, theta, units=units)
+        return sphere.sphere2cart(1.0, phi, theta, units=units)
     else:
         return sphere.sphere2cart(np.ones(len(phi)), phi, theta, units=units)
 
 
 def usphere2cart_radec(
-    ra : Union[float, np.ndarray], dec : Union[float, np.ndarray],
-    units : str = 'rads'
-    ) -> Union[float, np.ndarray]:
+    ra: Union[float, np.ndarray], dec: Union[float, np.ndarray], units: str = "rads"
+) -> Union[float, np.ndarray]:
     """
     Project coordinates on a sphere into cartesian coordinates on a unit sphere.
 
@@ -54,15 +52,17 @@ def usphere2cart_radec(
           Cartesian coordinates.
     """
     if isinstance(ra) is True:
-        return sphere.sphere2cart_radec(1., ra, dec, units=units)
+        return sphere.sphere2cart_radec(1.0, ra, dec, units=units)
     else:
         return sphere.sphere2cart_radec(np.ones(len(ra)), ra, dec, units=units)
 
 
 def cart2usphere(
-    x : Union[float, np.ndarray], y : Union[float, np.ndarray],
-    z : Union[float, np.ndarray], units : str = 'rads'
-    ) ->  Union[float, np.ndarray]:
+    x: Union[float, np.ndarray],
+    y: Union[float, np.ndarray],
+    z: Union[float, np.ndarray],
+    units: str = "rads",
+) -> Union[float, np.ndarray]:
     """
     Returns spherical polar coordinates for a given set of cartesian coordinates,
     assuming the center is at the origin.
@@ -87,9 +87,11 @@ def cart2usphere(
 
 
 def cart2usphere_radec(
-    x : Union[float, np.ndarray], y : Union[float, np.ndarray],
-    z : Union[float, np.ndarray], units : str = 'rads'
-    ) -> Union[float, np.ndarray]:
+    x: Union[float, np.ndarray],
+    y: Union[float, np.ndarray],
+    z: Union[float, np.ndarray],
+    units: str = "rads",
+) -> Union[float, np.ndarray]:
     """
     Returns spherical polar coordinates for a given set of cartesian coordinates,
     assuming the center is at the origin.
@@ -113,7 +115,7 @@ def cart2usphere_radec(
     return ra, dec
 
 
-def usphere_dist2ang(dist : Union[float, np.ndarray]) ->  Union[float, np.ndarray]:
+def usphere_dist2ang(dist: Union[float, np.ndarray]) -> Union[float, np.ndarray]:
     """
     Converts distances on a unit sphere to angular distances projected across a unit sphere.
 
@@ -127,5 +129,5 @@ def usphere_dist2ang(dist : Union[float, np.ndarray]) ->  Union[float, np.ndarra
     ang : array
         The angular distance across a unit sphere.
     """
-    ang = 2. * np.arcsin(dist / 2.)
+    ang = 2.0 * np.arcsin(dist / 2.0)
     return ang

@@ -1,4 +1,3 @@
-
 from .convert import graph2data
 from .convert import data2graph
 

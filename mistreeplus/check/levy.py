@@ -1,6 +1,4 @@
-
-
-def check_levy_mode(mode : str) -> None:
+def check_levy_mode(mode: str) -> None:
     """Checks and raises an error if mode is not set to either '2D', '3D' or 'usphere'.
 
     Parameters
@@ -12,7 +10,10 @@ def check_levy_mode(mode : str) -> None:
             - '3D' : 3 dimensions.
             - 'usphere' : On a unit sphere.
     """
-    if mode != '2D' and mode != '3D' and mode != 'usphere':
-        raise AssertionError("Unexpected value entered for 'mode', mode must be set to either '2D', '3D' or 'usphere'.", mode)
+    if mode != "2D" and mode != "3D" and mode != "usphere":
+        raise AssertionError(
+            "Unexpected value entered for 'mode', mode must be set to either '2D', '3D' or 'usphere'.",
+            mode,
+        )
     else:
         pass

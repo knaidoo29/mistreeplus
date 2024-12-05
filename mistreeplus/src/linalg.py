@@ -3,7 +3,7 @@ from numba import njit
 
 
 @njit
-def dotvector3(a : np.ndarray, b : np.ndarray) -> float:
+def dotvector3(a: np.ndarray, b: np.ndarray) -> float:
     """
     Calculates the dot product of two vectors of length 3.
 
@@ -23,7 +23,7 @@ def dotvector3(a : np.ndarray, b : np.ndarray) -> float:
 
 
 @njit
-def dot3by3mat3vec(a : np.narray, b : np.ndarray) -> float:
+def dot3by3mat3vec(a: np.narray, b: np.ndarray) -> float:
     """
     Calculates the dot product of a 3x3 matrix and a vector of length 3.
 
@@ -45,8 +45,9 @@ def dot3by3mat3vec(a : np.narray, b : np.ndarray) -> float:
     c[2] = a[2, 0] * b[0] + a[2, 1] * b[1] + a[2, 2] * b[2]
     return c
 
+
 @njit
-def crossvector3(a : np.ndarray, b : np.ndarray) -> float:
+def crossvector3(a: np.ndarray, b: np.ndarray) -> float:
     """
     Calculates the cross product of two vectors of length 3.
 
@@ -68,8 +69,9 @@ def crossvector3(a : np.ndarray, b : np.ndarray) -> float:
     c[2] = a[0] * b[1] - a[1] * b[0]
     return c
 
+
 @njit
-def normalisevector(vecin : np.ndarray) -> np.ndarray:
+def normalisevector(vecin: np.ndarray) -> np.ndarray:
     """
     Normalises an input vector.
 
@@ -92,8 +94,9 @@ def normalisevector(vecin : np.ndarray) -> np.ndarray:
         vecout[i] = vecin[i] / mag
     return vecout
 
+
 @njit
-def inv3by3(m : np.ndarray) -> float:
+def inv3by3(m: np.ndarray) -> float:
     """
     Inverts a 3x3 matrix.
 

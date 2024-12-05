@@ -1,8 +1,11 @@
 import numpy as np
 from numba import njit
 
+
 @njit
-def getgraphdegree(i1 : np.ndarray, i2 : np.ndarray, nnodes : int, nedges : int) -> np.ndarray:
+def getgraphdegree(
+    i1: np.ndarray, i2: np.ndarray, nnodes: int, nedges: int
+) -> np.ndarray:
     """
     Given the edge index, this function computes the degree of each node.
 

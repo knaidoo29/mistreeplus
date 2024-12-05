@@ -2,20 +2,21 @@ from setuptools import setup, find_packages
 
 # read the contents of your README file
 from os import path
+
 this_directory = path.abspath(path.dirname(__file__))
-with open(path.join(this_directory, 'README.md')) as f:
+with open(path.join(this_directory, "README.md")) as f:
     long_description = f.read()
 
 setup(
     name="mistreeplus",
     version="0.0.0-dev",
-    description= "A python package for advanced analysis of minimum spanning trees.",
+    description="A python package for advanced analysis of minimum spanning trees.",
     long_description=long_description,
-    long_description_content_type='text/markdown',
-    url='https://knaidoo29.github.io/mistreedoc/',
+    long_description_content_type="text/markdown",
+    url="https://knaidoo29.github.io/mistreedoc/",
     author="Krishna Naidoo",
     author_email="krishna.naidoo.11@ucl.ac.uk",
-    license='MIT',
+    license="MIT",
     packages=find_packages(),
     install_requires=[
         "numba",
@@ -32,13 +33,13 @@ setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
-        'Topic :: Scientific/Engineering',
-        'Topic :: Scientific/Engineering :: Astronomy',
-        'Topic :: Scientific/Engineering :: Physics',
-        'Topic :: Scientific/Engineering :: Visualization',
-        'Topic :: Scientific/Engineering :: Information Analysis',
-        'Topic :: Scientific/Engineering :: Mathematics',
-      ],
-      test_suite='nose.collector',
-      tests_require=['nose'],
-      )
+        "Topic :: Scientific/Engineering",
+        "Topic :: Scientific/Engineering :: Astronomy",
+        "Topic :: Scientific/Engineering :: Physics",
+        "Topic :: Scientific/Engineering :: Visualization",
+        "Topic :: Scientific/Engineering :: Information Analysis",
+        "Topic :: Scientific/Engineering :: Mathematics",
+    ],
+    test_suite="nose.collector",
+    tests_require=["nose"],
+)

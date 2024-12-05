@@ -3,7 +3,7 @@ from numba import njit
 
 
 @njit
-def periodicboundary(x : float, boxsize : float) -> float:
+def periodicboundary(x: float, boxsize: float) -> float:
     """
     Ensures particles remain within a periodic box.
 
@@ -26,11 +26,16 @@ def periodicboundary(x : float, boxsize : float) -> float:
             x -= boxsize
     return x
 
+
 @njit
 def randwalkcart2d(
-    steps : np.ndarray, prand : np.ndarray, boxsize : float, x0 : float, y0 : float,
-    useperiodic : bool
-    ) -> tuple(np.ndarray, np.ndarray):
+    steps: np.ndarray,
+    prand: np.ndarray,
+    boxsize: float,
+    x0: float,
+    y0: float,
+    useperiodic: bool,
+) -> tuple(np.ndarray, np.ndarray):
     """
     Generates a random walk on a 2D grid.
 
@@ -79,11 +84,18 @@ def randwalkcart2d(
 
     return x, y
 
+
 @njit
 def randwalkcart3d(
-    steps : np.ndarray, prand : np.ndarray, trand : np.ndarray,
-    boxsize : float, x0 : float, y0 : float, z0 : float, useperiodic : bool
-    ) -> tuple(np.ndarray, np.ndarray, np.ndarray):
+    steps: np.ndarray,
+    prand: np.ndarray,
+    trand: np.ndarray,
+    boxsize: float,
+    x0: float,
+    y0: float,
+    z0: float,
+    useperiodic: bool,
+) -> tuple(np.ndarray, np.ndarray, np.ndarray):
     """
     Generates a random walk on a 3D grid.
 

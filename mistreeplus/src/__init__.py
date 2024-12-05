@@ -1,4 +1,3 @@
-
 from .linalg import dotvector3
 from .linalg import dot3by3mat3vec
 from .linalg import crossvector3

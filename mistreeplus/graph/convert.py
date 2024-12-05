@@ -1,7 +1,7 @@
 from scipy.sparse import csr_matrix
 
 
-def graph2data(graph : csr_matrix) -> tuple(np.ndarray, np.ndarray, np.ndarray):
+def graph2data(graph: csr_matrix) -> tuple(np.ndarray, np.ndarray, np.ndarray):
     """
     Returns the index and data of a sparse csr_matrix
 
@@ -25,8 +25,8 @@ def graph2data(graph : csr_matrix) -> tuple(np.ndarray, np.ndarray, np.ndarray):
 
 
 def data2graph(
-    ind1 : np.ndarray, ind2 : np.ndarray, weights : np.ndarray, Nnodes : int
-    ) -> csr_matrix:
+    ind1: np.ndarray, ind2: np.ndarray, weights: np.ndarray, Nnodes: int
+) -> csr_matrix:
     """
     Returns the sparse matrix of a graph given the indices and data.
 

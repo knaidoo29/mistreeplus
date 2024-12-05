@@ -3,7 +3,7 @@ import numpy as np
 from .. import src
 
 
-def get_edge_index(ind1 : np.ndarray, ind2 : np.ndarray) -> np.ndarray:
+def get_edge_index(ind1: np.ndarray, ind2: np.ndarray) -> np.ndarray:
     """
     Combines edge indices into one array.
 
@@ -21,7 +21,7 @@ def get_edge_index(ind1 : np.ndarray, ind2 : np.ndarray) -> np.ndarray:
     return edge_ind
 
 
-def get_stat_index(edge_ind : np.ndarray, stat : np.ndarray) -> np.ndarray:
+def get_stat_index(edge_ind: np.ndarray, stat: np.ndarray) -> np.ndarray:
     """
     Assigns statistics of the nodes to the edge indexes.
 
@@ -41,7 +41,7 @@ def get_stat_index(edge_ind : np.ndarray, stat : np.ndarray) -> np.ndarray:
     return stat_ind
 
 
-def get_degree(edge_ind : np.ndarray, nnodes : int) ->  np.ndarray:
+def get_degree(edge_ind: np.ndarray, nnodes: int) -> np.ndarray:
     """
     Returns the degrees for the nodes.
 

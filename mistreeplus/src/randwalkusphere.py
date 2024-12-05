@@ -6,10 +6,13 @@ from . import linalg
 
 @njit
 def usphere_rotate(
-    phi : float, theta : float,
-    phi_start : float, theta_start : float,
-    phi_final : float, theta_final : float
-    ) -> float:
+    phi: float,
+    theta: float,
+    phi_start: float,
+    theta_start: float,
+    phi_final: float,
+    theta_final: float,
+) -> float:
     """
     Rotates coordinates phi, theta from a rotation from phi_start, theta_start
     to phi_final, theta_final.
@@ -29,16 +32,20 @@ def usphere_rotate(
         Rotated coordinates of phi, theta.
     """
     # Convert spherical coordinates to Cartesian coordinates
-    u = np.array([
-        np.cos(phi_start) * np.sin(theta_start),
-        np.sin(phi_start) * np.sin(theta_start),
-        np.cos(theta_start)
-    ])
-    v = np.array([
-        np.cos(phi_final) * np.sin(theta_final),
-        np.sin(phi_final) * np.sin(theta_final),
-        np.cos(theta_final)
-    ])
+    u = np.array(
+        [
+            np.cos(phi_start) * np.sin(theta_start),
+            np.sin(phi_start) * np.sin(theta_start),
+            np.cos(theta_start),
+        ]
+    )
+    v = np.array(
+        [
+            np.cos(phi_final) * np.sin(theta_final),
+            np.sin(phi_final) * np.sin(theta_final),
+            np.cos(theta_final),
+        ]
+    )
 
     n1 = linalg.crossvector3(u, v)
     n = linalg.normalisevector(n1)
@@ -50,25 +57,19 @@ def usphere_rotate(
 
     alpha = np.arctan2(dot_v_t, dot_v_u)
 
-    rmatrix = np.array([
-        np.cos(alpha), -np.sin(alpha), 0,
-        np.sin(alpha), np.cos(alpha), 0,
-        0, 0, 1
-    ]).reshape(3, 3)
+    rmatrix = np.array(
+        [np.cos(alpha), -np.sin(alpha), 0, np.sin(alpha), np.cos(alpha), 0, 0, 0, 1]
+    ).reshape(3, 3)
 
-    tmatrix = np.array([
-        u[0], t[0], n[0],
-        u[1], t[1], n[1],
-        u[2], t[2], n[2]
-    ]).reshape(3, 3)
+    tmatrix = np.array([u[0], t[0], n[0], u[1], t[1], n[1], u[2], t[2], n[2]]).reshape(
+        3, 3
+    )
 
     inv_tmatrix = linalg.inv3by3(tmatrix)
 
-    inpos = np.array([
-        np.cos(phi) * np.sin(theta),
-        np.sin(phi) * np.sin(theta),
-        np.cos(theta)
-    ])
+    inpos = np.array(
+        [np.cos(phi) * np.sin(theta), np.sin(phi) * np.sin(theta), np.cos(theta)]
+    )
 
     outpos1 = linalg.dot3by3mat3vec(inv_tmatrix, inpos)
     outpos2 = linalg.dot3by3mat3vec(rmatrix, outpos1)
@@ -85,8 +86,8 @@ def usphere_rotate(
 
 @njit
 def rand_walk_usphere(
-    steps : int, prand : np.ndarray, phi0 : float, theta0 : float
-    ) -> tuple(np.ndarray, np.ndarray, np.ndarray):
+    steps: int, prand: np.ndarray, phi0: float, theta0: float
+) -> tuple(np.ndarray, np.ndarray, np.ndarray):
     """
     Generates a random walk on a unit sphere.
 

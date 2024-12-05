@@ -1,7 +1,7 @@
 import numpy as np
 
 
-def cart1d(size : int, xmin : float = 0., xmax : float = 1.) -> np.ndarray:
+def cart1d(size: int, xmin: float = 0.0, xmax: float = 1.0) -> np.ndarray:
     """
     Generates a uniform set of random numbers between [xmin, xmax].
 
@@ -19,13 +19,13 @@ def cart1d(size : int, xmin : float = 0., xmax : float = 1.) -> np.ndarray:
     xrand : array
         Random cartesian numbers.
     """
-    xrand = (xmax - xmin)*np.random.random_sample(size) + xmin
+    xrand = (xmax - xmin) * np.random.random_sample(size) + xmin
     return xrand
 
 
 def cart2d(
-    size : int, mins : list[float] = [0., 0.], maxs : list[float] = [1., 1.]
-    ) -> np.ndarray:
+    size: int, mins: list[float] = [0.0, 0.0], maxs: list[float] = [1.0, 1.0]
+) -> np.ndarray:
     """
     Generates a uniform set of random numbers in 2D.
 
@@ -53,8 +53,8 @@ def cart2d(
 
 
 def cart3d(
-    size : int, mins : list[float] =[0., 0., 0.], maxs : list[float] = [1., 1., 1.]
-    ) -> np.ndarray:
+    size: int, mins: list[float] = [0.0, 0.0, 0.0], maxs: list[float] = [1.0, 1.0, 1.0]
+) -> np.ndarray:
     """
     Generates a uniform set of random numbers in 3D.
 

@@ -1,8 +1,7 @@
 import numpy as np
-from typing import Union
 
 
-def xy2vert(x : np.ndarray], y : np.ndarray) ->  np.ndarray:
+def xy2vert(x: np.ndarray, y: np.ndarray) -> np.ndarray:
     """
     Converts coordinates x and y to vertices points.
 
@@ -20,7 +19,7 @@ def xy2vert(x : np.ndarray], y : np.ndarray) ->  np.ndarray:
     return vert
 
 
-def vert2xy(vert : np.ndarray) -> tuple(np.ndarray, np.ndarray):
+def vert2xy(vert: np.ndarray) -> tuple(np.ndarray, np.ndarray):
     """
     Converts coordinates x and y to vertices points.
 
@@ -38,7 +37,7 @@ def vert2xy(vert : np.ndarray) -> tuple(np.ndarray, np.ndarray):
     return x, y
 
 
-def xyz2vert(x : np.ndarray, y : np.ndarray, z : np.ndarray) -> np.ndarray:
+def xyz2vert(x: np.ndarray, y: np.ndarray, z: np.ndarray) -> np.ndarray:
     """
     Converts coordinates x, y and z to vertices points.
 
@@ -56,7 +55,7 @@ def xyz2vert(x : np.ndarray, y : np.ndarray, z : np.ndarray) -> np.ndarray:
     return vert
 
 
-def vert2xyz(vert : np.ndarray) -> tuple(np.ndarray, np.ndarray, np.ndarray):
+def vert2xyz(vert: np.ndarray) -> tuple(np.ndarray, np.ndarray, np.ndarray):
     """
     Converts coordinates x, y and z to vertices points.
 

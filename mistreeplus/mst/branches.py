@@ -5,9 +5,12 @@ from .. import coords
 
 
 def _find_branches(
-    ind1 : np.ndarray, ind2 : np.ndarray, deg1 : np.ndarray, deg2 : np.ndarray,
-    bcutfreq : int = 1000
-    ) -> tuple(list[int], list[int]):
+    ind1: np.ndarray,
+    ind2: np.ndarray,
+    deg1: np.ndarray,
+    deg2: np.ndarray,
+    bcutfreq: int = 1000,
+) -> tuple(list[int], list[int]):
     """
     Finds the branch indexes for each branch in the MST.
 
@@ -31,11 +34,13 @@ def _find_branches(
         tree is provided.
     """
     # Locate edges which are in the middle of branches, i.e. either end has degree 2.
-    ind_bmid = np.where((deg1 == 2.) & (deg2 == 2.))[0]
+    ind_bmid = np.where((deg1 == 2.0) & (deg2 == 2.0))[0]
     ind_bmid1 = ind1[ind_bmid]
     ind_bmid2 = ind2[ind_bmid]
     # Locate edges which are at the end of branches, i.e. one side has degree 2 but the other does not.
-    ind_bend = np.where(((deg1 == 2.) & (deg2 != 2.)) | ((deg1 != 2.) & (deg2 == 2.)))[0]
+    ind_bend = np.where(
+        ((deg1 == 2.0) & (deg2 != 2.0)) | ((deg1 != 2.0) & (deg2 == 2.0))
+    )[0]
     ind_bend1 = ind1[ind_bend]
     ind_bend2 = ind2[ind_bend]
     # Get the degree for the branch end edges
@@ -61,9 +66,9 @@ def _find_branches(
             branch = []
             branch.append(ind_bend[item])
             # Determine which end of the edge is attached to a node with degree = 2
-            if deg_bend1[item] == 2.:
+            if deg_bend1[item] == 2.0:
                 node_index = ind_bend1[item]
-            elif deg_bend2[item] == 2.:
+            elif deg_bend2[item] == 2.0:
                 node_index = ind_bend2[item]
             else:
                 assert ValueError("branch edge incorrect.")
@@ -72,24 +77,32 @@ def _find_branches(
             # Loop through branch mids to fill the branch
             while done == False:
                 # Search for attached edge among branch mids
-                cond = np.where(((mask_mid == True) & (ind_bmid1 == node_index)) |
-                                ((mask_mid == True) & (ind_bmid2 == node_index)))[0]
+                cond = np.where(
+                    ((mask_mid == True) & (ind_bmid1 == node_index))
+                    | ((mask_mid == True) & (ind_bmid2 == node_index))
+                )[0]
                 # If you find none then find either a branch end to end the branch
                 # the branch is incomplete.
                 if len(cond) == 0:
                     # Search for attached edge among branch ends
-                    cond = np.where(((mask_end == True) & (ind_bend1 == node_index)) |
-                                    ((mask_end == True) & (ind_bend2 == node_index)))[0]
+                    cond = np.where(
+                        ((mask_end == True) & (ind_bend1 == node_index))
+                        | ((mask_end == True) & (ind_bend2 == node_index))
+                    )[0]
                     # If you find none then the branch is incomplete
                     if len(cond) == 0:
-                        bind_inc = bind_inc + np.ndarray.tolist(np.ndarray.flatten(np.array(branch)))
+                        bind_inc = bind_inc + np.ndarray.tolist(
+                            np.ndarray.flatten(np.array(branch))
+                        )
                         done = True
                     # Complete the branch with a branch end
                     else:
                         branch.append(ind_bend[cond])
                         done = True
                         mask_end[cond] = False
-                        bind.append(np.ndarray.tolist(np.ndarray.flatten(np.array(branch))))
+                        bind.append(
+                            np.ndarray.tolist(np.ndarray.flatten(np.array(branch)))
+                        )
                 # Found a branch mid
                 else:
                     if len(cond) == 1:
@@ -145,7 +158,9 @@ def _find_branches(
     # Collect incomplete branches
     bind_inc = bind_inc + np.ndarray.tolist(np.ndarray.flatten(np.array(ind_bmid)))
     # Ensures bind list structure is not broken by nested arrays
-    bind = [np.ndarray.tolist(np.hstack(np.array(bind[i]))) for i in range(0, len(bind))]
+    bind = [
+        np.ndarray.tolist(np.hstack(np.array(bind[i]))) for i in range(0, len(bind))
+    ]
     # Ditto as above but for incomplete branches
     if len(bind_inc) != 0:
         bind_inc = np.ndarray.tolist(np.hstack(np.array(bind_inc)))
@@ -153,12 +168,18 @@ def _find_branches(
 
 
 def find_branches(
-    edge_ind : np.ndarray, degree : np.ndarray, div : Optional[int] = None,
-    nperdiv : int = 10000, x : Optional[np.ndarray] = None,
-    y : Optional[np.ndarray] = None, z : Optional[np.ndarray] = None,
-    phi : Optional[np.ndarray] = None, theta : Optional[np.ndarray] = None,
-    bcutfreq : int = 1000, mode : str = '2D'
-    ) -> tuple(list[int], list[int]):
+    edge_ind: np.ndarray,
+    degree: np.ndarray,
+    div: Optional[int] = None,
+    nperdiv: int = 10000,
+    x: Optional[np.ndarray] = None,
+    y: Optional[np.ndarray] = None,
+    z: Optional[np.ndarray] = None,
+    phi: Optional[np.ndarray] = None,
+    theta: Optional[np.ndarray] = None,
+    bcutfreq: int = 1000,
+    mode: str = "2D",
+) -> tuple(list[int], list[int]):
     """
     Finds the length of branches for large sets of data where a rapid increase in speed is achieved by subdividing
     the full data set and finding branches in each sub division and then completing branches that straddle across the
@@ -203,59 +224,59 @@ def find_branches(
     ind2 = edge_ind[2]
     # Figure out how many divisions to use.
     if div is None:
-        if mode == '2D':
+        if mode == "2D":
             npart = len(x)
-            div = np.ceil(np.sqrt(npart/nperdiv))
-        elif mode == '3D':
+            div = np.ceil(np.sqrt(npart / nperdiv))
+        elif mode == "3D":
             npart = len(x)
-            div = np.ceil((npart/nperdiv)**(1./3.))
-        elif mode == 'usphere':
+            div = np.ceil((npart / nperdiv) ** (1.0 / 3.0))
+        elif mode == "usphere":
             npart = len(phi)
-            div = np.ceil(np.sqrt(npart/nperdiv))
+            div = np.ceil(np.sqrt(npart / nperdiv))
         div = int(div)
     # Find ranges and divide the data.
-    if mode == '2D' or mode == '3D':
+    if mode == "2D" or mode == "3D":
         xmin, xmax = np.min(x), np.max(x)
         ymin, ymax = np.min(y), np.max(y)
-        xedges = np.linspace(xmin, xmax, div+1)
+        xedges = np.linspace(xmin, xmax, div + 1)
         dx = xedges[1] - xedges[0]
-        xmid = 0.5*(xedges[:-1] + xedges[1:])
-        yedges = np.linspace(ymin, ymax, div+1)
-        ymid = 0.5*(yedges[:-1] + yedges[1:])
+        xmid = 0.5 * (xedges[:-1] + xedges[1:])
+        yedges = np.linspace(ymin, ymax, div + 1)
+        ymid = 0.5 * (yedges[:-1] + yedges[1:])
         dy = yedges[1] - yedges[0]
-        if mode == '3D':
+        if mode == "3D":
             zmin, zmax = np.min(z), np.max(z)
-            zedges = np.linspace(zmin, zmax, div+1)
+            zedges = np.linspace(zmin, zmax, div + 1)
             dz = zedges[1] - zedges[0]
-            zmid = 0.5*(zedges[:-1] + zedges[1:])
-            xdiv, ydiv, zdiv = np.meshgrid(xmid, ymid, zmid, indexing='ij')
+            zmid = 0.5 * (zedges[:-1] + zedges[1:])
+            xdiv, ydiv, zdiv = np.meshgrid(xmid, ymid, zmid, indexing="ij")
             xdiv = np.ndarray.flatten(xdiv)
             ydiv = np.ndarray.flatten(ydiv)
             zdiv = np.ndarray.flatten(zdiv)
         else:
-            xdiv, ydiv = np.meshgrid(xmid, ymid, indexing='ij')
+            xdiv, ydiv = np.meshgrid(xmid, ymid, indexing="ij")
             xdiv = np.ndarray.flatten(xdiv)
             ydiv = np.ndarray.flatten(ydiv)
-    elif mode == 'usphere':
+    elif mode == "usphere":
         pmin, pmax = np.min(phi), np.max(phi)
         tmin, tmax = np.min(theta), np.max(theta)
-        pedges = np.linspace(pmin, pmax, div+1)
+        pedges = np.linspace(pmin, pmax, div + 1)
         dp = pedges[1] - pedges[0]
-        pmid = 0.5*(pedges[:-1] + pedges[1:])
-        tedges = np.linspace(tmin, tmax, div+1)
+        pmid = 0.5 * (pedges[:-1] + pedges[1:])
+        tedges = np.linspace(tmin, tmax, div + 1)
         dt = tedges[1] - tedges[0]
-        tmid = 0.5*(tedges[:-1] + tedges[1:])
-        pdiv, thetadiv = np.meshgrid(pmid, tmid, indexing='ij')
+        tmid = 0.5 * (tedges[:-1] + tedges[1:])
+        pdiv, thetadiv = np.meshgrid(pmid, tmid, indexing="ij")
         pdiv = np.ndarray.flatten(pdiv)
         tdiv = np.ndarray.flatten(tdiv)
     # Now run the Branch finder on each sub division
     bind_total = []
     bind_inc_total = []
     deg1, deg2 = degree[ind1], degree[ind2]
-    if mode == '2D' or mode == '3D':
+    if mode == "2D" or mode == "3D":
         edgex = np.array([x[ind1], x[ind2]])
         edgey = np.array([y[ind1], x[ind2]])
-        if mode == '3D':
+        if mode == "3D":
             edgez = np.array(z[ind1], z[ind2])
         length = len(xdiv)
         total_mask = np.ones(len(edgex[0]))
@@ -265,28 +286,51 @@ def find_branches(
         length = len(pdiv)
         total_mask = np.ones(len(edgep[0]))
     for i in range(0, length):
-        if mode == '2D':
+        if mode == "2D":
             xd, yd = xdiv[i], ydiv[i]
-            cond = np.where((total_mask == 1.) & ((edgex[0] >= xd - dx / 2.) | (edgex[0] <= xd + dx / 2.) |
-                            (edgey[0] >= yd - dx / 2.) | (edgey[0] <= yd + dx / 2.)))[0]
-        elif mode == '3D':
+            cond = np.where(
+                (total_mask == 1.0)
+                & (
+                    (edgex[0] >= xd - dx / 2.0)
+                    | (edgex[0] <= xd + dx / 2.0)
+                    | (edgey[0] >= yd - dx / 2.0)
+                    | (edgey[0] <= yd + dx / 2.0)
+                )
+            )[0]
+        elif mode == "3D":
             xd, yd, zd = xdiv[i], y_div[i], z_div[i]
-            cond = np.where((total_mask == 1.) & ((edgex[0] >= xd - dx / 2.) | (edgex[0] <= xd + dx / 2.) |
-                            (edgey[0] >= yd - dx / 2.) | (edgey[0] < yd + dx / 2.) | (edgez[0] >= zd - dx / 2.)
-                            & (edgez[0] <= zd + dx / 2.)))[0]
-        elif mode == 'usphere':
+            cond = np.where(
+                (total_mask == 1.0)
+                & (
+                    (edgex[0] >= xd - dx / 2.0)
+                    | (edgex[0] <= xd + dx / 2.0)
+                    | (edgey[0] >= yd - dx / 2.0)
+                    | (edgey[0] < yd + dx / 2.0)
+                    | (edgez[0] >= zd - dx / 2.0) & (edgez[0] <= zd + dx / 2.0)
+                )
+            )[0]
+        elif mode == "usphere":
             pd, td = pdiv[i], tdiv[i]
-            cond = np.where((total_mask == 1.) & ((edge_phi[0] >= pd - dp / 2.) | (edgep[0] <= pd + dp / 2.)
-                            | (edget[0] >= td - dt / 2.) | (edget[0] <= td + dt / 2.)))[0]
+            cond = np.where(
+                (total_mask == 1.0)
+                & (
+                    (edge_phi[0] >= pd - dp / 2.0)
+                    | (edgep[0] <= pd + dp / 2.0)
+                    | (edget[0] >= td - dt / 2.0)
+                    | (edget[0] <= td + dt / 2.0)
+                )
+            )[0]
         deg1_cut, deg2_cut = deg1[cond], deg2[cond]
         ind1_cut, ind2_cut = ind1[cond], ind2[cond]
-        bind_cut, bind_inc_cut = _find_branches(ind1_cut, ind2_cut, deg1_cut, deg2_cut, bcutfreq=bcutfreq)
+        bind_cut, bind_inc_cut = _find_branches(
+            ind1_cut, ind2_cut, deg1_cut, deg2_cut, bcutfreq=bcutfreq
+        )
         bind_cut_cor = [np.ndarray.tolist(cond[j]) for j in bind_cut]
         bind_total = bind_total + bind_cut_cor
-        total_mask[[item for sublist in bind_total for item in sublist]] = 0.
+        total_mask[[item for sublist in bind_total for item in sublist]] = 0.0
         if len(bind_inc_cut) is not 0:
             bind_inc_total = bind_inc_total + np.ndarray.tolist(cond[bind_inc_cut])
-        total_mask[bind_inc_total] = 0.
+        total_mask[bind_inc_total] = 0.0
     bind_inc_total = np.array(bind_inc_total)
     bind_inc_total = np.unique(bind_inc_total)
     if len(bind_inc_total) == 0:
@@ -294,15 +338,19 @@ def find_branches(
     else:
         deg1_inc, deg2_inc = deg1[bind_inc_total], deg2[bind_inc_total]
         ind1_inc, ind2_inc = ind1[bind_inc_total], ind2[bind_inc_total]
-        bind_left_over, bind_inc_left_over = _find_branches(deg1_inc, deg2_inc, ind1_inc, ind2_inc, bcutfreq=bcutfreq)
-        bind_left_over_cor = [np.ndarray.tolist(bind_inc_total[j]) for j in bind_left_over]
+        bind_left_over, bind_inc_left_over = _find_branches(
+            deg1_inc, deg2_inc, ind1_inc, ind2_inc, bcutfreq=bcutfreq
+        )
+        bind_left_over_cor = [
+            np.ndarray.tolist(bind_inc_total[j]) for j in bind_left_over
+        ]
         bind_total = bind_total + bind_left_over_cor
         bind_inc_total = bind_inc_left_over
     branch_ind, branch_ind_inc = bind_total, bind_inc_total
     return branch_ind, branch_ind_inc
 
 
-def get_branch_weight(branch_ind : list[int], weight : np.ndarray) -> np.ndarray:
+def get_branch_weight(branch_ind: list[int], weight: np.ndarray) -> np.ndarray:
     """
     Returns branch weights from branch indexes.
 
@@ -323,8 +371,8 @@ def get_branch_weight(branch_ind : list[int], weight : np.ndarray) -> np.ndarray
 
 
 def get_branch_end_index(
-    edge_ind : np.ndarray, edge_deg : np.ndarray, branch_ind : list[ind]
-    ) -> np.ndarray:
+    edge_ind: np.ndarray, edge_deg: np.ndarray, branch_ind: list[ind]
+) -> np.ndarray:
     """
     Gets the index of the nodes at the extreme end of each branch.
 
@@ -347,20 +395,20 @@ def get_branch_end_index(
     edge_degree_end12 = edge_degree[1][branch_edge_index_end1]
     index11 = edge_index[0][branch_edge_index_end1]
     index12 = edge_index[1][branch_edge_index_end1]
-    condition = np.where(edge_degree_end12 != 2.)[0]
+    condition = np.where(edge_degree_end12 != 2.0)[0]
     branch_index_end1 = np.copy(index11)
     branch_index_end1[condition] = index12[condition]
     edge_degree22 = edge_degree[1][branch_edge_index_end2]
     index21 = edge_index[0][branch_edge_index_end2]
     index22 = edge_index[1][branch_edge_index_end2]
-    condition = np.where(edge_degree22 != 2.)[0]
+    condition = np.where(edge_degree22 != 2.0)[0]
     branch_index_end2 = np.copy(index21)
     branch_index_end2[condition] = index22[condition]
     branch_end = np.array([branch_index_end1, branch_index_end2])
     return branch_end
 
 
-def get_branch_edge_count(branch_ind : list[int]) -> np.ndarray:
+def get_branch_edge_count(branch_ind: list[int]) -> np.ndarray:
     """Finds the number of edges included in each branch.
 
     Parameters
@@ -379,12 +427,15 @@ def get_branch_edge_count(branch_ind : list[int]) -> np.ndarray:
 
 
 def get_branch_shape(
-    edge_ind : np.ndarray, edge_deg : np.ndarray, branch_ind : np.ndarray,
-    branch_weight : np.ndarray, mode : str = '2D',
-    x : Optional[np.ndarray] = None,
-    y : Optional[np.ndarray] = None,
-    z : Optional[np.ndarray] = None
-    ) -> np.ndarray:
+    edge_ind: np.ndarray,
+    edge_deg: np.ndarray,
+    branch_ind: np.ndarray,
+    branch_weight: np.ndarray,
+    mode: str = "2D",
+    x: Optional[np.ndarray] = None,
+    y: Optional[np.ndarray] = None,
+    z: Optional[np.ndarray] = None,
+) -> np.ndarray:
     """
     Finds the shape of all branches. This is simply the straight line distance between the two ends divided by
     the branch length.
@@ -415,20 +466,20 @@ def get_branch_shape(
     """
     branch_index_end = get_branch_end_index(edge_ind, edge_deg, branch_weight)
     branch_index_end1, branch_index_end2 = branch_index_end[0], branch_index_end[1]
-    if mode == '2D':
+    if mode == "2D":
         dx = abs(x[branch_index_end1] - x[branch_index_end2])
         dy = abs(y[branch_index_end1] - y[branch_index_end2])
-        branch_end_weight = np.sqrt((dx ** 2.) + (dy ** 2.))
-    elif mode == '3D':
-        dx = abs(x[branch_index_end1] - x[branch_index_end2])
-        dy = abs(y[branch_index_end1] - y[branch_index_end2])
-        dz = abs(z[branch_index_end1] - z[branch_index_end2])
-        branch_end_weight = np.sqrt((dx ** 2.) + (dy ** 2.) + (dz ** 2.))
-    elif mode == 'usphere':
+        branch_end_weight = np.sqrt((dx**2.0) + (dy**2.0))
+    elif mode == "3D":
         dx = abs(x[branch_index_end1] - x[branch_index_end2])
         dy = abs(y[branch_index_end1] - y[branch_index_end2])
         dz = abs(z[branch_index_end1] - z[branch_index_end2])
-        branch_end_weight = np.sqrt((dx ** 2.) + (dy ** 2.) + (dz ** 2.))
+        branch_end_weight = np.sqrt((dx**2.0) + (dy**2.0) + (dz**2.0))
+    elif mode == "usphere":
+        dx = abs(x[branch_index_end1] - x[branch_index_end2])
+        dy = abs(y[branch_index_end1] - y[branch_index_end2])
+        dz = abs(z[branch_index_end1] - z[branch_index_end2])
+        branch_end_weight = np.sqrt((dx**2.0) + (dy**2.0) + (dz**2.0))
         branch_end_weight = coords.usphere_dist2ang(branch_end_weight)
-    branch_shape = branch_end_weight/branch_weight
+    branch_shape = branch_end_weight / branch_weight
     return branch_shape

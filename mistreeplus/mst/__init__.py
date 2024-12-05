@@ -1,4 +1,3 @@
-
 from .branches import _find_branches
 from .branches import find_branches
 from .branches import get_branch_weight

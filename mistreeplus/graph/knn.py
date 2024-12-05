@@ -4,7 +4,7 @@ from sklearn.neighbors import kneighbors_graph
 from .. import coords
 
 
-def construct_knn2D(x : np.ndarray, y : np.ndarray, k : int) -> csr_matrix:
+def construct_knn2D(x: np.ndarray, y: np.ndarray, k: int) -> csr_matrix:
     """
     Constructs the k-Nearest Neighbour graph from 2D points.
 
@@ -22,11 +22,11 @@ def construct_knn2D(x : np.ndarray, y : np.ndarray, k : int) -> csr_matrix:
         k-Nearest Neighbour graph.
     """
     vert = coords.xy2vert(x, y)
-    knn_graph = kneighbors_graph(vert, n_neighbors=k, mode='distance')
+    knn_graph = kneighbors_graph(vert, n_neighbors=k, mode="distance")
     return knn_graph
 
 
-def construct_knn3D(x : np.ndarray, y : np.ndarray, z : np.ndarray, k : int) -> csr_matrix:
+def construct_knn3D(x: np.ndarray, y: np.ndarray, z: np.ndarray, k: int) -> csr_matrix:
     """
     Constructs the k-Nearest Neighbour graph from 3D points.
 
@@ -44,5 +44,5 @@ def construct_knn3D(x : np.ndarray, y : np.ndarray, z : np.ndarray, k : int) -> 
         k-Nearest Neighbour graph.
     """
     vert = coords.xyz2vert(x, y, z)
-    knn_graph = kneighbors_graph(vert, n_neighbors=k, mode='distance')
+    knn_graph = kneighbors_graph(vert, n_neighbors=k, mode="distance")
     return knn_graph

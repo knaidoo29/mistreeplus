@@ -4,7 +4,9 @@ from typing import Union
 from .. import check
 
 
-def theta2dec(theta : Union[float, np.ndarray], units : str ='rads') -> Union[float, np.ndarray]:
+def theta2dec(
+    theta: Union[float, np.ndarray], units: str = "rads"
+) -> Union[float, np.ndarray]:
     """
     Converts polar coordinates to Declination [-pi/2., pi/2.].
 
@@ -17,13 +19,15 @@ def theta2dec(theta : Union[float, np.ndarray], units : str ='rads') -> Union[fl
     """
     check.check_angle_units(units)
     check.check_theta_in_range(theta, units)
-    if units == 'degs':
-        return 90. - theta
-    elif units == 'rads':
-        return np.pi/2. - theta
+    if units == "degs":
+        return 90.0 - theta
+    elif units == "rads":
+        return np.pi / 2.0 - theta
 
 
-def dec2theta(dec : Union[float, np.ndarray], units : str ='rads') -> Union[float, np.ndarray]:
+def dec2theta(
+    dec: Union[float, np.ndarray], units: str = "rads"
+) -> Union[float, np.ndarray]:
     """
     Converts Declination to polar coordinates.
 
@@ -36,16 +40,20 @@ def dec2theta(dec : Union[float, np.ndarray], units : str ='rads') -> Union[floa
     """
     check.check_angle_units(units)
     check.check_dec_in_range(dec, units)
-    if units == 'degs':
-        return 90. - dec
-    elif units == 'rads':
-        return np.pi/2. - dec
+    if units == "degs":
+        return 90.0 - dec
+    elif units == "rads":
+        return np.pi / 2.0 - dec
 
 
 def sphere2cart(
-    r : Union[float, np.ndarray], phi : Union[float, np.ndarray],
-    theta : Union[float, np.ndarray], units : str = 'rads'
-    ) ->  tuple(Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]):
+    r: Union[float, np.ndarray],
+    phi: Union[float, np.ndarray],
+    theta: Union[float, np.ndarray],
+    units: str = "rads",
+) -> tuple(
+    Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]
+):
     """
     Converts spherical polar coordinates into cartesian coordinates.
 
@@ -70,7 +78,7 @@ def sphere2cart(
     check.check_theta_in_range(theta, units)
     phi = np.copy(phi)
     theta = np.copy(theta)
-    if units == 'degs':
+    if units == "degs":
         phi, theta = np.deg2rad(phi), np.deg2rad(theta)
     x = r * np.cos(phi) * np.sin(theta)
     y = r * np.sin(phi) * np.sin(theta)
@@ -79,9 +87,11 @@ def sphere2cart(
 
 
 def sphere2cart_radec(
-    r : Union[float, np.ndarray], ra : Union[float, np.ndarray],
-    dec : Union[float, np.ndarray], units : str = 'rads'
-    ) -> tuple(Union[float, np.ndarray], Union[float, np.ndarray]):
+    r: Union[float, np.ndarray],
+    ra: Union[float, np.ndarray],
+    dec: Union[float, np.ndarray],
+    units: str = "rads",
+) -> tuple(Union[float, np.ndarray], Union[float, np.ndarray]):
     """
     Converts celestial RA and DEC to cartesian coordinates.
 
@@ -110,9 +120,13 @@ def sphere2cart_radec(
 
 
 def cart2sphere(
-    x : Union[float, np.ndarray], y : Union[float, np.ndarray],
-    z : Union[float, np.ndarray], units : str = 'rads'
-    ) ->  tuple(Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]):
+    x: Union[float, np.ndarray],
+    y: Union[float, np.ndarray],
+    z: Union[float, np.ndarray],
+    units: str = "rads",
+) -> tuple(
+    Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]
+):
     """
     Returns spherical polar coordinates for a given set of cartesian coordinates,
     assuming the center is at the origin.
@@ -134,31 +148,35 @@ def cart2sphere(
         Latitude coordinates (radian range [0, pi], degree range [0, 180]).
     """
     check.check_angle_units(units)
-    r = np.sqrt((x**2.) + (y**2.) + (z**2.))
+    r = np.sqrt((x**2.0) + (y**2.0) + (z**2.0))
     phi = np.arctan2(y, x)
     if isinstance(phi) == True:
-        if phi < 0.:
-            phi += 2.*np.pi
-        if r != 0.:
-            theta = np.arccos(z/r)
+        if phi < 0.0:
+            phi += 2.0 * np.pi
+        if r != 0.0:
+            theta = np.arccos(z / r)
         else:
-            theta = 0.
+            theta = 0.0
     else:
-        condition = np.where(phi < 0.)
-        phi[condition] += 2.*np.pi
+        condition = np.where(phi < 0.0)
+        phi[condition] += 2.0 * np.pi
         theta = np.zeros(len(phi))
-        condition = np.where(r != 0.)[0]
-        theta[condition] = np.arccos(z[condition]/r[condition])
-    if units == 'degs':
+        condition = np.where(r != 0.0)[0]
+        theta[condition] = np.arccos(z[condition] / r[condition])
+    if units == "degs":
         phi = np.rad2deg(phi)
         theta = np.rad2deg(theta)
     return r, phi, theta
 
 
 def cart2sphere_radec(
-    x : Union[float, np.ndarray], y : Union[float, np.ndarray],
-    z : Union[float, np.ndarray], units : str ='rads'
-    ) -> tuple( Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]):
+    x: Union[float, np.ndarray],
+    y: Union[float, np.ndarray],
+    z: Union[float, np.ndarray],
+    units: str = "rads",
+) -> tuple(
+    Union[float, np.ndarray], Union[float, np.ndarray], Union[float, np.ndarray]
+):
     """
     Returns celestial coordinates for a given set of cartesian coordinates, assuming
     the center is at the origin.

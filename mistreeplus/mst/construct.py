@@ -2,7 +2,7 @@ import numpy as np
 from scipy.sparse.csgraph import minimum_spanning_tree
 
 
-def construct_mst(graph : csr_matrix) -> csr_matrix:
+def construct_mst(graph: csr_matrix) -> csr_matrix:
     """Constructs the Minimum Spanning Tree graph from an input graph.
 
     Parameters
