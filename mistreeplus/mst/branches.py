@@ -47,8 +47,8 @@ def _find_branches(
     deg_bend1 = deg1[ind_bend]
     deg_bend2 = deg2[ind_bend]
     # Create binary mask for removing located branches later.
-    mask_end = np.ones(ind_bend.shape, dtype=np.bool)
-    mask_mid = np.ones(ind_bmid.shape, dtype=np.bool)
+    mask_end = np.ones(ind_bend.shape, dtype=bool)
+    mask_mid = np.ones(ind_bmid.shape, dtype=bool)
     # Create list for complete branches and incomplete branches
     bind = []
     bind_inc = []
@@ -101,7 +101,7 @@ def _find_branches(
                         done = True
                         mask_end[cond] = False
                         bind.append(
-                            np.ndarray.tolist(np.ndarray.flatten(np.array(branch)))
+                            np.ndarray.tolist(np.ndarray.flatten(np.array(branch, dtype=object)))
                         )
                 # Found a branch mid
                 else:
@@ -159,7 +159,7 @@ def _find_branches(
     bind_inc = bind_inc + np.ndarray.tolist(np.ndarray.flatten(np.array(ind_bmid)))
     # Ensures bind list structure is not broken by nested arrays
     bind = [
-        np.ndarray.tolist(np.hstack(np.array(bind[i]))) for i in range(0, len(bind))
+        np.ndarray.tolist(np.hstack(np.array(bind[i], dtype='object'))) for i in range(0, len(bind))
     ]
     # Ditto as above but for incomplete branches
     if len(bind_inc) != 0:
@@ -328,7 +328,7 @@ def find_branches(
         bind_cut_cor = [np.ndarray.tolist(cond[j]) for j in bind_cut]
         bind_total = bind_total + bind_cut_cor
         total_mask[[item for sublist in bind_total for item in sublist]] = 0.0
-        if len(bind_inc_cut) is not 0:
+        if len(bind_inc_cut) != 0:
             bind_inc_total = bind_inc_total + np.ndarray.tolist(cond[bind_inc_cut])
         total_mask[bind_inc_total] = 0.0
     bind_inc_total = np.array(bind_inc_total)
@@ -390,17 +390,17 @@ def get_branch_end_index(
     branch_end : array
         The index of the nodes at the ends of each branch.
     """
-    branch_edge_index_end1 = [i[0] for i in branch_index]
-    branch_edge_index_end2 = [i[len(i) - 1] for i in branch_index]
-    edge_degree_end12 = edge_degree[1][branch_edge_index_end1]
-    index11 = edge_index[0][branch_edge_index_end1]
-    index12 = edge_index[1][branch_edge_index_end1]
+    branch_edge_index_end1 = [i[0] for i in branch_ind]
+    branch_edge_index_end2 = [i[len(i) - 1] for i in branch_ind]
+    edge_degree_end12 = edge_deg[1][branch_edge_index_end1]
+    index11 = edge_ind[0][branch_edge_index_end1]
+    index12 = edge_ind[1][branch_edge_index_end1]
     condition = np.where(edge_degree_end12 != 2.0)[0]
     branch_index_end1 = np.copy(index11)
     branch_index_end1[condition] = index12[condition]
-    edge_degree22 = edge_degree[1][branch_edge_index_end2]
-    index21 = edge_index[0][branch_edge_index_end2]
-    index22 = edge_index[1][branch_edge_index_end2]
+    edge_degree22 = edge_deg[1][branch_edge_index_end2]
+    index21 = edge_ind[0][branch_edge_index_end2]
+    index22 = edge_ind[1][branch_edge_index_end2]
     condition = np.where(edge_degree22 != 2.0)[0]
     branch_index_end2 = np.copy(index21)
     branch_index_end2[condition] = index22[condition]
@@ -464,7 +464,7 @@ def get_branch_shape(
     branch_shape : array
         The shape of each branch.
     """
-    branch_index_end = get_branch_end_index(edge_ind, edge_deg, branch_weight)
+    branch_index_end = get_branch_end_index(edge_ind, edge_deg, branch_ind)
     branch_index_end1, branch_index_end2 = branch_index_end[0], branch_index_end[1]
     if mode == "2D":
         dx = abs(x[branch_index_end1] - x[branch_index_end2])
