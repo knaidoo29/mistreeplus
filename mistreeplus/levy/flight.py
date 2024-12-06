@@ -61,7 +61,7 @@ def generate_user_flight(
                 y0 *= boxsize
                 z0 *= boxsize
         elif mode == "usphere":
-            phi0, theta0 = randoms.usphere(1)
+            phi0, theta0 = randoms.usphere_phitheta(1)
             phi0, theta0 = phi0[0], theta0[0]
     else:
         if mode == "2D" or mode == "usphere":
@@ -73,6 +73,7 @@ def generate_user_flight(
     else:
         useperiodic = 0
     if mode == "2D":
+        size = len(steps)
         prand = randoms.polar_phi(size)
         x, y = src.randwalkcart2d(
             steps=steps,
@@ -81,12 +82,12 @@ def generate_user_flight(
             x0=x0,
             y0=y0,
             useperiodic=useperiodic,
-            length=len(steps) + 1,
         )
         pos = np.column_stack((x, y))
     elif mode == "3D":
-        prand, trand = randoms.usphere(size)
-        x, y, z = src.randwalkcart2d(
+        size = len(steps)
+        prand, trand = randoms.usphere_phitheta(size)
+        x, y, z = src.randwalkcart3d(
             steps=steps,
             prand=prand,
             trand=trand,
@@ -95,13 +96,13 @@ def generate_user_flight(
             y0=y0,
             z0=z0,
             useperiodic=useperiodic,
-            length=len(steps) + 1,
         )
         pos = np.column_stack((x, y, z))
     elif mode == "usphere":
+        size = len(steps)
         prand = randoms.polar_phi(size)
         phi, theta = src.randwalkusphere(
-            steps=steps, prand=prand, phi0=phi0, theta0=theta0, length=len(steps) + 1
+            steps=steps, prand=prand, phi0=phi0, theta0=theta0
         )
         pos = np.column_stack((phi, theta))
     return pos

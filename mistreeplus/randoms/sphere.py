@@ -2,8 +2,6 @@ import numpy as np
 from typing import Tuple
 
 from . import cart
-from . import polar
-from . import usphere
 
 from .. import check
 
@@ -91,7 +89,7 @@ def sphere_theta(
     return trand
 
 
-def sphere(
+def sphere_rphitheta(
     size: int,
     mins: list[float] = [0.0, 0.0, 0.0],
     max: list[float] = [1.0, 2.0 * np.pi, np.pi],

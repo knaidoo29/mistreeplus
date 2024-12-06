@@ -179,14 +179,14 @@ systems and the transformations from one coordinate system to another.
   - `cart3d` : Generates a uniform set of randoms in 3D.
   - `polar_r` : Generates random radial in polar coordinates.
   - `polar_phi` : Generates random phi in polar coordinates.
-  - `polar` : Generates random in polar coordinates.
+  - `polar_rphi` : Generates random in polar coordinates.
   - `usphere_phi` : Generates random phis on a unit sphere.
   - `usphere_theta` : Generates random thetas on a unit sphere.
-  - `usphere` : Generates randoms on a unit sphere.
+  - `usphere_phitheta` : Generates randoms on a unit sphere.
   - `sphere_r` : Generates random radial in spherical polar coordinates.
   - `sphere_phi` : Generates random phi values in spherical polar coordinates.
   - `sphere_theta` : Generates random theta values in spherical polar coordinates.
-  - `sphere` : Generates randoms in spherical polar coordinates.
+  - `sphere_rphitheta` : Generates randoms in spherical polar coordinates.
 
 * `src` : Fortran source functions. These functions are designed to be used by MiSTree
 under-the-hood and contain functions for the fortran subroutines but can be accessed by the user.

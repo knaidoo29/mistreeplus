@@ -61,7 +61,7 @@ def polar_phi(
     return prand
 
 
-def polar(
+def polar_rphi(
     size: int,
     mins: list[float] = [0.0, 0.0],
     maxs: list[float] = [1.0, 2.0 * np.pi],

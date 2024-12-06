@@ -125,7 +125,7 @@ def randwalkusphere(
         dphi = prand[i - 1]
         dtheta = steps[i - 1]
 
-        phinew, thetanew = usphere_rotate(dphi, dtheta, 0, 0, phinow, thetanow)
+        phinew, thetanew = usphererotate(dphi, dtheta, 0, 0, phinow, thetanow)
 
         phinow = phinew
         thetanow = thetanew

@@ -29,7 +29,7 @@ def usphere_phi(
     prand : array
         Random phis on a unit sphere.
     """
-    prand = polar.polar_phi(size, phimin=mins[0], phimax=maxs[0], units=units)
+    prand = polar.polar_phi(size, phimin=phimin, phimax=phimax, units=units)
     return prand
 
 
@@ -66,7 +66,7 @@ def usphere_theta(
     return trand
 
 
-def usphere(
+def usphere_phitheta(
     size: int,
     mins: list[float] = [0.0, 0.0],
     maxs: list[float] = [2.0 * np.pi, np.pi],
