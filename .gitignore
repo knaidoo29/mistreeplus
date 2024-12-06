@@ -2,3 +2,5 @@ build/*
 mistreeplus.egg-info/*
 dev/*
 *__pycache__*
+*.pytest_cache*
+*.ipynb_checkpoints*
