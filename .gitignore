@@ -1,3 +1,4 @@
 build/*
 mistreeplus.egg-info/*
 dev/*
+*__pycache__*

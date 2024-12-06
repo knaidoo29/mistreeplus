@@ -52,5 +52,5 @@ def generate_adj_levy_steps(
     u = randoms.cart1d(size)
     steps = (t0 - ts) * ((u / beta) ** (1.0 / gamma)) + ts
     cond = np.where(u >= beta)[0]
-    steps[cond] = t0 * ((1.0 - ((u - beta) / (1.0 - beta))) ** (1.0 / alpha))
+    steps[cond] = t0 * ((1.0 - ((u[cond] - beta) / (1.0 - beta))) ** (1.0 / alpha))
     return steps

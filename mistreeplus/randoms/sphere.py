@@ -2,6 +2,7 @@ import numpy as np
 from typing import Tuple
 
 from . import cart
+from . import usphere
 
 from .. import check
 
@@ -30,7 +31,7 @@ def sphere_r(
     """
     check.check_positive(rmin)
     check.check_positive(rmax)
-    u = cart.cart1d(size, xmin=rmin, xmax=rmax)
+    u = cart.cart1d(size)
     rrand = ((rmax**3.0 - rmin**3.0) * u + rmin**3.0) ** (1.0 / 3.0)
     return rrand
 
@@ -92,7 +93,7 @@ def sphere_theta(
 def sphere_rphitheta(
     size: int,
     mins: list[float] = [0.0, 0.0, 0.0],
-    max: list[float] = [1.0, 2.0 * np.pi, np.pi],
+    maxs: list[float] = [1.0, 2.0 * np.pi, np.pi],
     units: str = "rads",
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """

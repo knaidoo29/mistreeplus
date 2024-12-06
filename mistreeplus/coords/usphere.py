@@ -25,7 +25,7 @@ def usphere2cart(
     x, y, z : array
         Cartesian coordinates.
     """
-    if isinstance(phi) is True:
+    if check.check_isscalar(phi) == True:
         return sphere.sphere2cart(1.0, phi, theta, units=units)
     else:
         return sphere.sphere2cart(np.ones(len(phi)), phi, theta, units=units)
@@ -51,7 +51,7 @@ def usphere2cart_radec(
     x, y, z : array
           Cartesian coordinates.
     """
-    if isinstance(ra) is True:
+    if check.check_isscalar(ra) == True:
         return sphere.sphere2cart_radec(1.0, ra, dec, units=units)
     else:
         return sphere.sphere2cart_radec(np.ones(len(ra)), ra, dec, units=units)

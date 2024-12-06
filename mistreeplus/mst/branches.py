@@ -221,7 +221,7 @@ def find_branches(
         tree is provided.
     """
     ind1 = edge_ind[0]
-    ind2 = edge_ind[2]
+    ind2 = edge_ind[1]
     # Figure out how many divisions to use.
     if div is None:
         if mode == "2D":

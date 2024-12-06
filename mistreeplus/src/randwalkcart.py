@@ -60,8 +60,8 @@ def randwalkcart2d(
         Coordinates of the random walk simulation.
     """
     length = len(steps)
-    x = np.zeros(length, dtype=np.float64)
-    y = np.zeros(length, dtype=np.float64)
+    x = np.zeros(length+1, dtype=np.float64)
+    y = np.zeros(length+1, dtype=np.float64)
 
     x[0] = x0
     y[0] = y0
@@ -69,9 +69,9 @@ def randwalkcart2d(
     xnow = x0
     ynow = y0
 
-    for i in range(1, length):
-        dx = steps[i - 1] * np.cos(prand[i - 1])
-        dy = steps[i - 1] * np.sin(prand[i - 1])
+    for i in range(0, length):
+        dx = steps[i] * np.cos(prand[i])
+        dy = steps[i] * np.sin(prand[i])
 
         xnow += dx
         ynow += dy
@@ -80,8 +80,8 @@ def randwalkcart2d(
             xnow = periodicboundary(xnow, boxsize)
             ynow = periodicboundary(ynow, boxsize)
 
-        x[i] = xnow
-        y[i] = ynow
+        x[i+1] = xnow
+        y[i+1] = ynow
 
     return x, y
 
@@ -119,10 +119,10 @@ def randwalkcart3d(
     x, y, z : ndarray
         Coordinates of the random walk simulation.
     """
-    length = len(steps) + 1
-    x = np.zeros(length, dtype=np.float64)
-    y = np.zeros(length, dtype=np.float64)
-    z = np.zeros(length, dtype=np.float64)
+    length = len(steps)
+    x = np.zeros(length+1, dtype=np.float64)
+    y = np.zeros(length+1, dtype=np.float64)
+    z = np.zeros(length+1, dtype=np.float64)
 
     x[0] = x0
     y[0] = y0
@@ -132,10 +132,10 @@ def randwalkcart3d(
     ynow = y0
     znow = z0
 
-    for i in range(1, length):
-        dx = steps[i - 1] * np.cos(prand[i - 1]) * np.sin(trand[i - 1])
-        dy = steps[i - 1] * np.sin(prand[i - 1]) * np.sin(trand[i - 1])
-        dz = steps[i - 1] * np.cos(trand[i - 1])
+    for i in range(0, length):
+        dx = steps[i] * np.cos(prand[i]) * np.sin(trand[i])
+        dy = steps[i] * np.sin(prand[i]) * np.sin(trand[i])
+        dz = steps[i] * np.cos(trand[i])
 
         xnow += dx
         ynow += dy
@@ -146,8 +146,8 @@ def randwalkcart3d(
             ynow = periodicboundary(ynow, boxsize)
             znow = periodicboundary(znow, boxsize)
 
-        x[i] = xnow
-        y[i] = ynow
-        z[i] = znow
+        x[i+1] = xnow
+        y[i+1] = ynow
+        z[i+1] = znow
 
     return x, y, z

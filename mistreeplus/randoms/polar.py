@@ -27,7 +27,7 @@ def polar_r(size: int, rmin: float = 0.0, rmax: float = 1.0) -> np.ndarray:
     """
     check.check_positive(rmin)
     check.check_positive(rmax)
-    u = cart.cart1d(size, xmin=rmin, xmax=rmax)
+    u = cart.cart1d(size)
     rrand = np.sqrt((rmax**2.0 - rmin**2.0) * u + rmin**2.0)
     return rrand
 

@@ -150,7 +150,7 @@ def cart2sphere(
     check.check_angle_units(units)
     r = np.sqrt((x**2.0) + (y**2.0) + (z**2.0))
     phi = np.arctan2(y, x)
-    if isinstance(phi) == True:
+    if check.check_isscalar(phi) == True:
         if phi < 0.0:
             phi += 2.0 * np.pi
         if r != 0.0:

@@ -198,7 +198,7 @@ def generate_adj_levy_flight(
             - mode='3D': [x, y, z]
             - mode='usphere': [phi, theta]
     """
-    steps = levysteps.generate_adj_levy_steps(size, t0, ts, alpha, beta, gamma)
+    steps = levysteps.generate_adj_levy_steps(size - 1, t0, ts, alpha, beta, gamma)
     pos = generate_user_flight(
         steps, start=start, mode=mode, periodic=periodic, boxsize=boxsize
     )

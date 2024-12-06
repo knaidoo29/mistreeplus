@@ -1,6 +1,8 @@
 import numpy as np
 from typing import Union
 
+from . import general
+
 
 def check_angle_units(units: str) -> None:
     """
@@ -31,7 +33,7 @@ def check_phi_in_range(phi: Union[float, np.ndarray], units: str) -> None:
     units : str
         Angular units, either 'degs' for degrees or 'rads' for radians.
     """
-    if isinstance(phi, float) == True:
+    if general.check_isscalar(phi) == True:
         if units == "degs":
             if phi < 0.0 or phi > 360.0:
                 raise AssertionError("Longitude must be in the range [0, 360].", phi)
@@ -86,7 +88,7 @@ def check_theta_in_range(theta: Union[float, np.ndarray], units: str) -> None:
     units : str
         Angular units, either 'degs' for degrees or 'rads' for radians.
     """
-    if isinstance(theta, float) == True:
+    if general.check_isscalar(theta) == True:
         if units == "degs":
             if theta < 0.0 or theta > 180.0:
                 raise AssertionError("Latitude must be in the range [0, 180].", theta)
@@ -127,7 +129,7 @@ def check_dec_in_range(dec: Union[float, np.ndarray], units: str) -> None:
     units : str
         Angular units, either 'degs' for degrees or 'rads' for radians.
     """
-    if isinstance(theta, float) == True:
+    if general.check_isscalar(dec) == True:
         if units == "degs":
             if dec < -90.0 or dec > 90.0:
                 raise AssertionError("Latitude must be in the range [90, 90].", dec)
@@ -169,10 +171,18 @@ def check_r_unit_sphere(r: Union[float, np.ndarray], tol: float = 1e-6) -> None:
     r : float or array
         Radial distance.
     """
-    cond = np.where(abs(r - 1.0) < tol)[0]
-    if len(cond) < len(r):
-        raise AssertionError(
-            "Some radial components are inconsistent with a unit sphere."
-        )
+    if general.check_isscalar(r) == True:
+        if abs(r - 1.0) > tol:
+            raise AssertionError(
+                "Some radial components are inconsistent with a unit sphere."
+            )
+        else:
+            pass
     else:
-        pass
+        cond = np.where(abs(r - 1.0) < tol)[0]
+        if len(cond) < len(r):
+            raise AssertionError(
+                "Some radial components are inconsistent with a unit sphere."
+            )
+        else:
+            pass

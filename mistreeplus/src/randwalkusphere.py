@@ -33,56 +33,63 @@ def usphererotate(
         Rotated coordinates of phi, theta.
     """
     # Convert spherical coordinates to Cartesian coordinates
-    u = np.array(
-        [
-            np.cos(phi_start) * np.sin(theta_start),
-            np.sin(phi_start) * np.sin(theta_start),
-            np.cos(theta_start),
-        ]
-    )
-    v = np.array(
-        [
-            np.cos(phi_final) * np.sin(theta_final),
-            np.sin(phi_final) * np.sin(theta_final),
-            np.cos(theta_final),
-        ]
-    )
+    if phi_start == phi_final and theta_start == theta_final:
+        return phi, theta
+    elif theta_start == theta_final and theta_start == 0.:
+        return phi+(phi_final-phi_start), theta
+    elif theta_start == theta_final and theta_start == np.pi:
+        return phi+(phi_final-phi_start), theta
+    else:
+        u = np.array(
+            [
+                np.cos(phi_start) * np.sin(theta_start),
+                np.sin(phi_start) * np.sin(theta_start),
+                np.cos(theta_start),
+            ]
+        )
+        v = np.array(
+            [
+                np.cos(phi_final) * np.sin(theta_final),
+                np.sin(phi_final) * np.sin(theta_final),
+                np.cos(theta_final),
+            ]
+        )
 
-    n1 = linalg.crossvector3(u, v)
-    n = linalg.normalisevector(n1)
+        n1 = linalg.crossvector3(u, v)
+        n = linalg.normalisevector(n1)
 
-    t = linalg.crossvector3(n, u)
+        t = linalg.crossvector3(n, u)
 
-    dot_v_t = linalg.dotvector3(v, t)
-    dot_v_u = linalg.dotvector3(v, u)
+        dot_v_t = linalg.dotvector3(v, t)
+        dot_v_u = linalg.dotvector3(v, u)
 
-    alpha = np.arctan2(dot_v_t, dot_v_u)
+        alpha = np.arctan2(dot_v_t, dot_v_u)
 
-    rmatrix = np.array(
-        [np.cos(alpha), -np.sin(alpha), 0, np.sin(alpha), np.cos(alpha), 0, 0, 0, 1]
-    ).reshape(3, 3)
+        rmatrix = np.array(
+            [np.cos(alpha), -np.sin(alpha), 0, np.sin(alpha), np.cos(alpha), 0, 0, 0, 1]
+        ).reshape(3, 3)
 
-    tmatrix = np.array([u[0], t[0], n[0], u[1], t[1], n[1], u[2], t[2], n[2]]).reshape(
-        3, 3
-    )
+        tmatrix = np.array([u[0], t[0], n[0], u[1], t[1], n[1], u[2], t[2], n[2]]).reshape(
+            3, 3
+        )
 
-    inv_tmatrix = linalg.inv3by3(tmatrix)
+        inv_tmatrix = linalg.inv3by3(tmatrix)
 
-    inpos = np.array(
-        [np.cos(phi) * np.sin(theta), np.sin(phi) * np.sin(theta), np.cos(theta)]
-    )
+        inpos = np.array(
+            [np.cos(phi) * np.sin(theta), np.sin(phi) * np.sin(theta), np.cos(theta)]
+        )
 
-    outpos1 = linalg.dot3by3mat3vec(inv_tmatrix, inpos)
-    outpos2 = linalg.dot3by3mat3vec(rmatrix, outpos1)
-    outpos = linalg.dot3by3mat3vec(tmatrix, outpos2)
+        outpos1 = linalg.dot3by3mat3vec(inv_tmatrix, inpos)
+        outpos2 = linalg.dot3by3mat3vec(rmatrix, outpos1)
+        outpos = linalg.dot3by3mat3vec(tmatrix, outpos2)
 
-    r = np.sqrt(np.dot(outpos, outpos))
-    phi_new = np.arctan2(outpos[1], outpos[0])
-    if phi_new < 0:
-        phi_new += 2 * np.pi
-    theta_new = np.arccos(outpos[2] / r)
+        r = np.sqrt(np.dot(outpos, outpos))
+        phi_new = np.arctan2(outpos[1], outpos[0])
+        if phi_new < 0:
+            phi_new += 2 * np.pi
+        theta_new = np.arccos(outpos[2] / r)
 
-    return phi_new, theta_new
+        return phi_new, theta_new
 
 
 @njit
@@ -96,8 +103,8 @@ def randwalkusphere(
     ----------
     steps : ndarray
         Array of step sizes.
-    prand, trand : ndarray
-        Random angles: phi (longitude) and theta (latitude).
+    prand : ndarray
+        Random angles: phi (longitude).
     boxsize : float
         Box size.
     x0, y0, z0 : float
@@ -111,9 +118,9 @@ def randwalkusphere(
     x, y, z : ndarray
         Coordinates of the random walk simulation.
     """
-    length = len(steps) + 1
-    phi = np.zeros(length)
-    theta = np.zeros(length)
+    length = len(steps)
+    phi = np.zeros(length+1)
+    theta = np.zeros(length+1)
 
     phi[0] = phi0
     theta[0] = theta0
@@ -121,16 +128,16 @@ def randwalkusphere(
     phinow = phi0
     thetanow = theta0
 
-    for i in range(1, length):
-        dphi = prand[i - 1]
-        dtheta = steps[i - 1]
+    for i in range(0, length):
+        dphi = prand[i]
+        dtheta = steps[i]
 
-        phinew, thetanew = usphererotate(dphi, dtheta, 0, 0, phinow, thetanow)
+        phinew, thetanew = usphererotate(dphi, dtheta, 0., 0., phinow, thetanow)
 
         phinow = phinew
         thetanow = thetanew
 
-        phi[i] = phinow
-        theta[i] = thetanow
+        phi[i+1] = phinow
+        theta[i+1] = thetanow
 
     return phi, theta
