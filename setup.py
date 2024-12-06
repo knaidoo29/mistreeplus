@@ -9,7 +9,7 @@ with open(path.join(this_directory, "README.md")) as f:
 
 setup(
     name="mistreeplus",
-    version="0.0.0-dev",
+    version="0.0.0",
     description="A python package for advanced analysis of minimum spanning trees.",
     long_description=long_description,
     long_description_content_type="text/markdown",

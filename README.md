@@ -3,9 +3,9 @@
 |               |                                           |
 |---------------|-------------------------------------------|
 | Author        | Krishna Naidoo                            |          
-| Version       | 0.0.0-dev                                 |
+| Version       | 0.0.0                                     |
 | Repository    | https://github.com/knaidoo29/mistreeplus  |
-| Documentation | https://mistree.rtfd.io/                  |
+| Documentation | TBA                                       |
 
 ## Introduction
 
@@ -200,37 +200,3 @@ systems and the transformations from one coordinate system to another.
   - `randwalkcart3d` : Random walk simulation in 3D.
   - `usphererotate` : Rotates point on unit sphere.
   - `randwalkusphere` : Random walk simulation on a unit sphere.
-
-
-## Documentation
-
-In depth documentation and tutorials are provided [here](https://knaidoo29.github.io/mistreedoc/).
-
-## Tutorials
-
-The tutorials in the documentation are supplied as ipython notebooks which can be downloaded from [here](https://github.com/knaidoo29/mistree/tree/master/tutorials/notebooks) or can be run online using [binder](https://mybinder.org/v2/gh/knaidoo29/mistree/master?filepath=tutorials%2Fnotebooks%2F).
-
-## Citing
-
-You can cite ``MiSTree`` using the following BibTex:
-
-```
-@ARTICLE{Naidoo2019,
-       author = {{Naidoo}, Krishna},
-        title = "{MiSTree: a Python package for constructing and analysing Minimum Spanning Trees}",
-      journal = {The Journal of Open Source Software},
-         year = "2019",
-        month = "Oct",
-       volume = {4},
-       number = {42},
-          eid = {1721},
-        pages = {1721},
-          doi = {10.21105/joss.01721},
-       adsurl = {https://ui.adsabs.harvard.edu/abs/2019JOSS....4.1721N}
-}
-```
-
-## Support
-
-If you have any issues with the code or want to suggest ways to improve it please open a new issue ([here](https://github.com/knaidoo29/mistree/issues))
-or (if you don't have a github account) email _krishna.naidoo.11@ucl.ac.uk_.
