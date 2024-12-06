@@ -188,8 +188,7 @@ systems and the transformations from one coordinate system to another.
   - `sphere_theta` : Generates random theta values in spherical polar coordinates.
   - `sphere_rphitheta` : Generates randoms in spherical polar coordinates.
 
-* `src` : Fortran source functions. These functions are designed to be used by MiSTree
-under-the-hood and contain functions for the fortran subroutines but can be accessed by the user.
+* `src` : Numba fast JIT compiled code, formally written in Fortran.
   - `dotvector3` : Dot product of two vectors of length 3.
   - `dot3by3mat3vec` : Dot product of 3 by 3 matrix with a vector of length 3.
   - `crossvector3` : Cross product of two vectors of length 3.
