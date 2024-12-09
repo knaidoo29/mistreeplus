@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from mistreeplus.mst import find_branches, get_branch_weight, get_branch_end_index, get_branch_edge_count, get_branch_shape
+from mistreeplus.legacy import find_branches, get_branch_weight, get_branch_end_index, get_branch_edge_count, get_branch_shape
 
 # Sample data for testing
 @pytest.fixture
