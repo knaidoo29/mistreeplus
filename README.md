@@ -1,4 +1,4 @@
-# MiSTreePlus
+# MiSTree+
 
 |               |                                           |
 |---------------|-------------------------------------------|
@@ -9,7 +9,7 @@
 
 ## Introduction
 
-The *minimum spanning tree* (MST), a graph constructed from a distribution of points, draws lines between pairs of points so that all points are linked in a single skeletal structure that contains no loops and has minimal total edge length. The MST has been used in a broad range of scientific fields such as particle physics, in astronomy and cosmology. Its success in these fields has been driven by its sensitivity to the spatial distribution of points and the patterns within. ``MiSTreePlus``, a public ``Python`` package, allows a user to construct the MST in a variety of coordinates systems, including Celestial coordinates used in astronomy. The package enables the MST to be constructed quickly by initially using a *k*-nearest neighbour graph (*k* NN, rather than a matrix of pairwise distances) which is then fed to Kruskal's algorithm to construct the MST. ``MiSTreePlus`` enables a user to measure the statistics of the MST and provides classes for binning the MST statistics (into histograms) and plotting the distributions. Applying the MST will enable the inclusion of high-order statistics information from the cosmic web which can provide additional information to improve cosmological parameter constraints. This information has not been fully exploited due to the computational cost of calculating *N*-point statistics. ``MiSTreePlus`` was designed to be used in cosmology but could be used in any field which requires extracting non-Gaussian information from point distributions.
+The *minimum spanning tree* (MST), a graph constructed from a distribution of points, draws lines between pairs of points so that all points are linked in a single skeletal structure that contains no loops and has minimal total edge length. The MST has been used in a broad range of scientific fields such as particle physics, in astronomy and cosmology. Its success in these fields has been driven by its sensitivity to the spatial distribution of points and the patterns within. ``MiSTree+``, a public ``Python`` package, allows a user to construct the MST in a variety of coordinates systems, including Celestial coordinates used in astronomy. The package enables the MST to be constructed quickly by initially using a *k*-nearest neighbour graph (*k* NN, rather than a matrix of pairwise distances) which is then fed to Kruskal's algorithm to construct the MST. ``MiSTree+`` enables a user to measure the statistics of the MST and provides classes for binning the MST statistics (into histograms) and plotting the distributions. Applying the MST will enable the inclusion of high-order statistics information from the cosmic web which can provide additional information to improve cosmological parameter constraints. This information has not been fully exploited due to the computational cost of calculating *N*-point statistics. ``MiSTree+`` was designed to be used in cosmology but could be used in any field which requires extracting non-Gaussian information from point distributions.
 
 ## Dependencies
 
@@ -163,12 +163,23 @@ systems and the transformations from one coordinate system to another.
   - `construct_knn2D` : Constructs k-Nearest Neighbour graph in 2D.
   - `construct_knn3D` : Constructs k-Nearest Neighbour graph in 3D.
 
+* `legacy`: Legacy  functions for computing the degree, edge length, branch length and shape statistics computed by `mistree`.
+  - `find_branches`: Finds branches in MST.
+  - `get_branch_weight`: Finds branch weights.
+  - `get_branch_end_index`: Finds the node index of branch ends.
+  - `get_branch_edge_count`: Count the number of edges in each branch.
+  - `get_branch_shape`: Finds the shape of branches.
+  - `GetMST`: A lightweight replacement to the `mistree.GetMST` class, useful for comparison or for reproducing `mistree` outputs.
+  - `get_edge_index`: Combined edge index arrays.
+  - `get_stat_index`: Create a 2D array, with the stat property of each node at the end of each edge.
+  - `get_degree`: Gets the degree for each node.
+
 * `levy` : Levy flight random walk samples.
-  - `generate_user_flight` : Generates random walk samples with user defined steps.
-  - `generate_levy_flight` : Generates Levy flight samples.
-  - `generate_adj_levy_flight` : Generates the adjusted Levy flight sample.
-  - `generate_levy_steps` : Generates steps following Levy flight step distribution.
-  - `generate_adj_levy_steps` : Generates steps following adjusted Levy flight step distributions.
+  - `generate_user_flight`: Generates random walk samples with user defined steps.
+  - `generate_levy_flight`: Generates Levy flight samples.
+  - `generate_adj_levy_flight`: Generates the adjusted Levy flight sample.
+  - `generate_levy_steps`: Generates steps following Levy flight step distribution.
+  - `generate_adj_levy_steps`: Generates steps following adjusted Levy flight step distributions.
 
 * `mst` : Minimum Spanning Tree functions.
   - `construct_mst` : Constructs the MST of an input graph.

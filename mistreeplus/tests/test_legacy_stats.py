@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from mistreeplus.mst import get_edge_index, get_stat_index, get_degree
+from mistreeplus.legacy import get_edge_index, get_stat_index, get_degree
 
 # Mock src.getgraphdegree to enable testing without the full src module
 def mock_getgraphdegree(i1, i2, nnodes, nedges):
