@@ -7,3 +7,4 @@ from . import levy
 from . import mst
 from . import randoms
 from . import src
+from . import trees

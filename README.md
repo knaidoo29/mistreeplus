@@ -74,7 +74,7 @@ python -m pytest
 You should now be able to import the module:
 
 ```python
-import mistreeplus as dmist
+import mistreeplus as mist
 ```
 
 ## Notes
