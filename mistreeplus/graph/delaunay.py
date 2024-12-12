@@ -8,7 +8,7 @@ from .. import coords
 from .. import index
 
 
-def construct_delaunay2D(x: np.ndarray, y: np.ndarray) -> csr_matrix:
+def construct_del2D(x: np.ndarray, y: np.ndarray) -> csr_matrix:
     """
     Constructs the Delaunay graph from 2D points.
 
@@ -37,7 +37,7 @@ def construct_delaunay2D(x: np.ndarray, y: np.ndarray) -> csr_matrix:
     return del_graph
 
 
-def construct_delaunay3D(x: np.ndarray, y: np.ndarray, z: np.ndarray) -> csr_matrix:
+def construct_del3D(x: np.ndarray, y: np.ndarray, z: np.ndarray) -> csr_matrix:
     """
     Constructs the Delaunay graph from 3D points.
 
