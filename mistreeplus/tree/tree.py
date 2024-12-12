@@ -127,7 +127,23 @@ def adjacents2tree(
     return tree
 
 
-def find_path2root(id: int, tree: dict) -> list:
+def findpath2root(id: int, tree: dict) -> list:
+    """
+    Finds the path along a tree from point 1 to 2 by finding the path to the root index and removing
+    common edges.
+
+    Parameters
+    ----------
+    id : array
+        Node index.
+    tree : dict
+        Graph structured in a tree.
+    
+    Returns
+    -------
+    pathtoroot : list
+        Path from the node to the tree root node.
+    """
     _id = id
     path = [_id]
     while tree[_id]['parent'] is not None:
@@ -135,4 +151,113 @@ def find_path2root(id: int, tree: dict) -> list:
         path.append(_id)
     return path
 
-# def find_path(id1: int, id2: int, tree: dict, edges_dict: dict) -> float:
+
+# def find_path(id1: int, id2: int, tree: dict) -> list:
+#     """
+#     Finds the path along a tree from point 1 to 2 by finding the path to the root index and removing
+#     common edges.
+
+#     Parameters
+#     ----------
+#     id1, id2 : array
+#         Node indices for each side of a graph edge.
+#     tree : dict
+#         Graph structured in a tree.
+    
+#     Returns
+#     -------
+#     path1to2 : list
+#         Path from index 1 to 2.
+#     """
+#     path1toroot = find_path2root(id1, tree)
+#     path2toroot = find_path2root(id2, tree)
+#     len1 = len(path1toroot)
+#     len2 = len(path2toroot)
+#     if len1 <= len2:
+#         lenmax = len1
+#     else:
+#         lenmax = len2 
+#     pathrootto1 = np.array(path1toroot)[::-1]
+#     pathrootto2 = np.array(path2toroot)[::-1]
+#     cond = np.where(pathrootto1[:lenmax] != pathrootto2[:lenmax])[0]
+#     if len(cond) != 0:
+#         splitnode = cond[0]-1
+#     else:
+#         splitnode = 0
+#     path1to2 = pathrootto1[splitnode:][::-1].tolist() + pathrootto2[splitnode+1:].tolist()
+#     return path1to2
+
+
+def findpath(id1: int, id2: int, tree: dict) -> list:
+    """
+    Finds the unique path between two nodes in a tree.
+
+    Parameters
+    ----------
+    id1, id2 : int
+        Node indices.
+    tree : dict
+        Graph structured in a tree.
+    
+    Returns
+    -------
+    list
+        Path from id1 to id2.
+    """
+    # Get paths to root for both nodes
+    path1 = findpath2root(id1, tree)
+    path2 = findpath2root(id2, tree)
+
+    # Use a set for quick lookup of common ancestors
+    path2_set = set(path2)
+
+    # Find the lowest common ancestor
+    lca = next(node for node in path1 if node in path2_set)
+
+    # Split paths at the LCA
+    path1_to_lca = path1[:path1.index(lca) + 1]
+    path2_to_lca = path2[:path2.index(lca)][::-1]  # Reverse to go from LCA to id2
+
+    # Combine paths
+    return path1_to_lca + path2_to_lca
+
+
+# def get_path_weight(path: list, edge_dict: dict) -> float:
+#     """
+#     Finds the total weight of an input path in a graph.
+
+#     Parameters
+#     ----------
+#     path : list
+#         Path between points in a graph.
+#     edge_dict : dict
+#         Edge dictionary to easily find weights.
+    
+#     Returns
+#     -------
+#     weight : float
+#         Total weight of an input path.
+#     """
+#     weight = 0.
+#     for i in range(0, len(path)-1):
+#         weight += edge_dict[(path[i], path[i+1])]
+#     return weight
+
+def get_path_weight(path: list, edge_dict: dict) -> float:
+    """
+    Finds the total weight of an input path in a graph.
+
+    Parameters
+    ----------
+    path : list
+        Path between points in a graph.
+    edge_dict : dict
+        Edge dictionary to easily find weights.
+    
+    Returns
+    -------
+    weight : float
+        Total weight of an input path.
+    """
+    # Use sum with generator for efficient computation
+    return sum(edge_dict[(path[i], path[i+1])] for i in range(len(path) - 1))

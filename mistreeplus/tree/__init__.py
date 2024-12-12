@@ -5,3 +5,6 @@ from .groups import get_groups
 
 from .tree import get_adjacents
 from .tree import adjacents2tree
+from .tree import findpath2root
+from .tree import findpath
+from .tree import get_path_weight
