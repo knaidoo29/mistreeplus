@@ -4,7 +4,12 @@ from typing import Tuple, List, Optional
 from . import groups
 
 
-def get_adjacents(id1: np.ndarray, id2: np.ndarray, wei: np.ndarray, Nnodes: int) -> Tuple[List[int], List[float]]:
+def get_adjacents(
+        id1: np.ndarray, 
+        id2: np.ndarray, 
+        wei: np.ndarray, 
+        Nnodes: int
+    ) -> Tuple[List[int], List[float]]:
     """
     Returns the adjacency list (the neighbours to each node in a graph) from a graph given in array format.
 
@@ -43,7 +48,6 @@ def get_adjacents(id1: np.ndarray, id2: np.ndarray, wei: np.ndarray, Nnodes: int
 def adjacents2tree(
         adjacents_idx: List[int], 
         Nnodes: int, 
-        adjacents_wei: Optional[List[float]] = None,
         root: int = 0,
         sanity: bool = True
     ) -> dict:
@@ -56,8 +60,6 @@ def adjacents2tree(
         List containing each adjacent node idx in the graph or neighbours.
     Nnodes : int
         Number of nodes.
-    adjacents_wei : list, optional
-        List containing each adjacent node weight in the graph or neighbours.
     root : int, optional
         The root of the tree, by default set to the first node.
     sanity : bool, optional
@@ -76,7 +78,10 @@ def adjacents2tree(
     tree = {}
     visited = np.zeros(Nnodes)
 
-    tree[root] = {'parent': None, 'children': adjacents_idx[root]}
+    tree[root] = {
+        'parent': None, 
+        'children': adjacents_idx[root]
+    }
     visited[root] = 1.
 
     visitparent = []
@@ -99,24 +104,20 @@ def adjacents2tree(
             
                 visited[child] = 1.
                 _adjacents_idx = np.array(adjacents_idx[child])
-
-                if adjacents_wei is None:
-                    _adjacents_wei = None
-                else:
-                    _adjacents_wei = np.array(adjacents_wei[child])
-                
                 _visited = visited[_adjacents_idx]
                 cond = np.where(_visited == 0.)[0]
             
                 if len(cond) == 0:
-                    tree[child] = {'parent': parent, 'children': None, 'weights': None}
+                    tree[child] = {
+                        'parent': parent, 'children': None
+                    }
 
                 else:
-                    if _adjacents_wei is None:
-                        tree[child] = {'parent': parent, 'children': _adjacents_idx[cond].tolist(), 'weights': None}
-                    else:
-                        tree[child] = {'parent': parent, 'children': _adjacents_idx[cond].tolist(), 'weights': _adjacents_wei[cond].tolist()}
-        
+                    tree[child] = {
+                        'parent': parent, 
+                        'children': _adjacents_idx[cond].tolist()
+                    }
+
                     _visitnextparent.append(child)
                     _visitnextchild.append(_adjacents_idx[cond])
         
@@ -124,3 +125,14 @@ def adjacents2tree(
         visitchild = _visitnextchild
     
     return tree
+
+
+def find_path2root(id: int, tree: dict) -> list:
+    _id = id
+    path = [_id]
+    while tree[_id]['parent'] is not None:
+        _id = tree[_id]['parent']
+        path.append(_id)
+    return path
+
+# def find_path(id1: int, id2: int, tree: dict, edges_dict: dict) -> float:
