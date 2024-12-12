@@ -1,6 +1,8 @@
 import numpy as np
 from typing import Tuple, List, Optional
 
+from . import groups
+
 
 def get_adjacents(id1: np.ndarray, id2: np.ndarray, wei: np.ndarray, Nnodes: int) -> Tuple[List[int], List[float]]:
     """
@@ -22,13 +24,19 @@ def get_adjacents(id1: np.ndarray, id2: np.ndarray, wei: np.ndarray, Nnodes: int
     adjacents_wei : list
         List containing each adjacent node weight in the graph or neighbours.
     """
-    adjacents_idx = [[] for i in range(0, Nnodes)]
-    adjacents_wei = [[] for i in range(0, Nnodes)]
+    _adjacents_idx = [[] for i in range(0, Nnodes)]
+    _adjacents_wei = [[] for i in range(0, Nnodes)]
     for i in range(0, len(id1)):
-        adjacents_idx[id1[i]].append(id2[i])
-        adjacents_idx[id2[i]].append(id1[i])
-        adjacents_wei[id1[i]].append(wei[i])
-        adjacents_wei[id2[i]].append(wei[i])
+        _adjacents_idx[id1[i]].append(id2[i])
+        _adjacents_idx[id2[i]].append(id1[i])
+        _adjacents_wei[id1[i]].append(wei[i])
+        _adjacents_wei[id2[i]].append(wei[i])
+    # filter out repeats
+    adjacents_idx, adjacents_wei = [], []
+    for i in range(0, Nnodes):
+        uni, ind = np.unique(_adjacents_idx[i], return_index=True)
+        adjacents_idx.append(uni.tolist())
+        adjacents_wei.append(np.array(_adjacents_wei[i])[ind].tolist())
     return adjacents_idx, adjacents_wei
 
 
@@ -36,7 +44,8 @@ def adjacents2tree(
         adjacents_idx: List[int], 
         Nnodes: int, 
         adjacents_wei: Optional[List[float]] = None,
-        root: int = 0
+        root: int = 0,
+        sanity: bool = True
     ) -> dict:
     """
     Constructs a dictionary tree from a given graph and it's node adjacents.
@@ -51,13 +60,19 @@ def adjacents2tree(
         List containing each adjacent node weight in the graph or neighbours.
     root : int, optional
         The root of the tree, by default set to the first node.
+    sanity : bool, optional
+        Tests whether the input graph is spanning. This should only be turned off 
+        if you already know the input graph is spanning.
     
     Returns
     -------
     tree : dict
         Graph structured in a tree.
     """
-
+    if sanity:
+        groupid = groups.get_groups(adjacents_idx, Nnodes, root=root)
+        assert len(np.unique(groupid)) == 1, "Graph is not spanning, since it produces more than one group."
+    
     tree = {}
     visited = np.zeros(Nnodes)
 
