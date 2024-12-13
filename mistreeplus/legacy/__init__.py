@@ -7,7 +7,3 @@ from .branches import get_branch_edge_count
 from .branches import get_branch_shape
 
 from .getmst import GetMST
-
-from .stats import get_edge_index
-from .stats import get_stat_index
-from .stats import get_degree

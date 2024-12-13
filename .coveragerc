@@ -1,0 +1,12 @@
+[run]
+# Specify the source folder for coverage
+source = mistreeplus
+omit =
+    */tests/*          # Exclude test files from coverage
+    */__init__.py      # Optional: exclude empty __init__.py files
+
+[report]
+# Display missing lines in the terminal
+show_missing = True
+# Fail coverage if below a threshold
+fail_under = 80

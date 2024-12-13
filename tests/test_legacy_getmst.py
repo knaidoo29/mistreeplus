@@ -18,7 +18,7 @@ def mock_graph():
     with patch("mistreeplus.graph") as graph:
         graph.construct_knn2D.return_value = "mock_knn2D_graph"
         graph.construct_knn3D.return_value = "mock_knn3D_graph"
-        graph.graph2data.return_value = (np.array([0, 1]), np.array([1, 2]), np.array([0.1, 0.2]))
+        graph.graph2data.return_value = (np.array([[0, 1], [1, 2]]), np.array([0.1, 0.2]))
         yield graph
 
 @pytest.fixture

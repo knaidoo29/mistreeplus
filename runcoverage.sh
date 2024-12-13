@@ -1,0 +1,1 @@
+pytest --cov=mistreeplus --cov-report=term-missing --cov-config=.coveragerc

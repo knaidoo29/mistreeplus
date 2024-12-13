@@ -17,8 +17,9 @@ def test_graph2data():
     expected_weights = np.array([1.0, 2.0, 3.0])
 
     # Function call
-    ind1, ind2, weights = graph2data(graph)
-
+    edge_idx, weights = graph2data(graph)
+    ind1, ind2 = edge_idx[0], edge_idx[1]
+    
     # Assertions
     assert np.array_equal(ind1, expected_ind1)
     assert np.array_equal(ind2, expected_ind2)
@@ -29,6 +30,7 @@ def test_data2graph():
     # Create test data
     ind1 = np.array([0, 1, 2])
     ind2 = np.array([1, 2, 0])
+    edge_idx = np.array([ind1, ind2])
     weights = np.array([1.0, 2.0, 3.0])
     Nnodes = 3
 
@@ -36,7 +38,7 @@ def test_data2graph():
     expected_graph = csr_matrix((weights, (ind1, ind2)), shape=(Nnodes, Nnodes))
 
     # Function call
-    graph = data2graph(ind1, ind2, weights, Nnodes)
+    graph = data2graph(edge_idx, weights, Nnodes)
 
     # Assertions
     assert graph.shape == expected_graph.shape

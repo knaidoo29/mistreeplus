@@ -8,9 +8,8 @@ def test_getgraphdegree_basic():
     i1 = np.array([0, 1, 2])
     i2 = np.array([1, 2, 0])
     nnodes = 3
-    nedges = 3
 
-    result = getgraphdegree(i1, i2, nnodes, nedges)
+    result = getgraphdegree(i1, i2, nnodes)
 
     # Expected degree for each node
     expected = np.array([2.0, 2.0, 2.0])  # Each node is connected to 2 others
@@ -22,9 +21,8 @@ def test_getgraphdegree_disconnected_nodes():
     i1 = np.array([0, 1])
     i2 = np.array([1, 2])
     nnodes = 5
-    nedges = 2
 
-    result = getgraphdegree(i1, i2, nnodes, nedges)
+    result = getgraphdegree(i1, i2, nnodes)
 
     # Expected degree (nodes 3 and 4 are disconnected)
     expected = np.array([1.0, 2.0, 1.0, 0.0, 0.0])
@@ -36,9 +34,8 @@ def test_getgraphdegree_single_edge():
     i1 = np.array([0])
     i2 = np.array([1])
     nnodes = 2
-    nedges = 1
 
-    result = getgraphdegree(i1, i2, nnodes, nedges)
+    result = getgraphdegree(i1, i2, nnodes)
 
     # Expected degree
     expected = np.array([1.0, 1.0])
@@ -50,9 +47,8 @@ def test_getgraphdegree_no_edges():
     i1 = np.array([])
     i2 = np.array([])
     nnodes = 3
-    nedges = 0
 
-    result = getgraphdegree(i1, i2, nnodes, nedges)
+    result = getgraphdegree(i1, i2, nnodes)
 
     # Expected degree (all nodes are disconnected)
     expected = np.zeros(nnodes, dtype=np.float64)
@@ -64,9 +60,8 @@ def test_getgraphdegree_large_graph():
     i1 = np.array([0, 1, 2, 3, 4, 5])
     i2 = np.array([1, 2, 3, 4, 5, 0])
     nnodes = 6
-    nedges = 6
 
-    result = getgraphdegree(i1, i2, nnodes, nedges)
+    result = getgraphdegree(i1, i2, nnodes)
 
     # Expected degree for a cycle graph
     expected = np.full(nnodes, 2.0)  # Each node in a cycle has 2 edges

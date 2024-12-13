@@ -2,7 +2,6 @@ import numpy as np
 from typing import Optional
 
 from . import branches
-from . import stats
 
 from .. import mst
 from .. import coords
@@ -116,16 +115,15 @@ class GetMST:
         else:
             knn_graph = graph.construct_knn3D(self.x, self.y, self.z, self.k_neighbours)
         mst_graph = mst.construct_mst(knn_graph)
-        ind1, ind2, self.edge_length = graph.graph2data(mst_graph)
+        self.edge_index, self.edge_length = graph.graph2data(mst_graph)
         if self._mode == 'usphere':
             self.edge_length = coords.usphere_dist2ang(self.edge_length)
-        self.edge_index = stats.get_edge_index(ind1, ind2)
 
 
     def get_degree(self):
         """Finds the degree of each node in the constructed MST."""
         if self.edge_index is not None:
-            self.degree = stats.get_degree(self.edge_index, len(self.x))
+            self.degree = graph.get_degree(self.edge_index, len(self.x))
         else:
             raise ValueError("'edge_index' are undefined, meaning the minimum spanning tree has yet to be constructed.")
 
@@ -133,7 +131,7 @@ class GetMST:
     def get_degree_for_edges(self):
         """Gets the degree of the nodes at each end of all edge."""
         if self.degree is not None:
-            self.edge_degree = stats.get_stat_index(self.edge_index, self.degree)
+            self.edge_degree = graph.get_stat_index(self.edge_index, self.degree)
         else:
             raise ValueError("The degrees are undefined, meaning they have yet to be calculated.")
 
