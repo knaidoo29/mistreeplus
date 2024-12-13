@@ -5,8 +5,7 @@ from . import groups
 
 
 def get_adjacents(
-        id1: np.ndarray, 
-        id2: np.ndarray, 
+        edge_idx: np.ndarray, 
         wei: np.ndarray, 
         Nnodes: int
     ) -> Tuple[List[int], List[float]]:
@@ -31,11 +30,11 @@ def get_adjacents(
     """
     _adjacents_idx = [[] for i in range(0, Nnodes)]
     _adjacents_wei = [[] for i in range(0, Nnodes)]
-    for i in range(0, len(id1)):
-        _adjacents_idx[id1[i]].append(id2[i])
-        _adjacents_idx[id2[i]].append(id1[i])
-        _adjacents_wei[id1[i]].append(wei[i])
-        _adjacents_wei[id2[i]].append(wei[i])
+    for i in range(0, len(edge_idx[0])):
+        _adjacents_idx[edge_idx[0][i]].append(edge_idx[1][i])
+        _adjacents_idx[edge_idx[1][i]].append(edge_idx[0][i])
+        _adjacents_wei[edge_idx[0][i]].append(wei[i])
+        _adjacents_wei[edge_idx[1][i]].append(wei[i])
     # filter out repeats
     adjacents_idx, adjacents_wei = [], []
     for i in range(0, Nnodes):

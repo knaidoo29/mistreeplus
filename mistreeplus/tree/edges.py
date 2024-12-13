@@ -1,11 +1,7 @@
 import numpy as np
 
 
-def get_edge_dict(
-        id1: np.ndarray, 
-        id2: np.ndarray, 
-        wei: np.ndarray
-    ) -> dict:
+def get_edge_dict(edge_idx: np.ndarray, wei: np.ndarray) -> dict:
     """
     Returns the edge dictionary for easier weight finding.
 
@@ -22,7 +18,7 @@ def get_edge_dict(
         Edge dictionary to easily find weights.
     """
     edge_dict = {}
-    for i in range(0, len(id1)):
-        edge_dict[(id1[i], id2[i])] = wei[i]
-        edge_dict[(id2[i], id1[i])] = wei[i]
+    for i in range(0, len(edge_idx[0])):
+        edge_dict[(edge_idx[0][i], edge_idx[1][i])] = wei[i]
+        edge_dict[(edge_idx[1][i], edge_idx[0][i])] = wei[i]
     return edge_dict
