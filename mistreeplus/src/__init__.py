@@ -12,3 +12,5 @@ from .randwalkcart import randwalkcart3d
 
 from .randwalkusphere import usphererotate
 from .randwalkusphere import randwalkusphere
+
+from .treeutils import add2centrality

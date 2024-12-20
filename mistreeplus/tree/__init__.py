@@ -8,3 +8,6 @@ from .tree import adjacents2tree
 from .tree import findpath2root
 from .tree import findpath
 from .tree import get_path_weight
+from .tree import get_centrality
+from .tree import get_spine
+from .tree import get_spines

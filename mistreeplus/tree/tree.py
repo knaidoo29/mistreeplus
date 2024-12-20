@@ -2,6 +2,7 @@ import numpy as np
 from typing import Tuple, List, Optional
 
 from . import groups
+from .. import src
 
 
 def get_adjacents(
@@ -151,42 +152,6 @@ def findpath2root(id: int, tree: dict) -> list:
     return path
 
 
-# def find_path(id1: int, id2: int, tree: dict) -> list:
-#     """
-#     Finds the path along a tree from point 1 to 2 by finding the path to the root index and removing
-#     common edges.
-
-#     Parameters
-#     ----------
-#     id1, id2 : array
-#         Node indices for each side of a graph edge.
-#     tree : dict
-#         Graph structured in a tree.
-    
-#     Returns
-#     -------
-#     path1to2 : list
-#         Path from index 1 to 2.
-#     """
-#     path1toroot = find_path2root(id1, tree)
-#     path2toroot = find_path2root(id2, tree)
-#     len1 = len(path1toroot)
-#     len2 = len(path2toroot)
-#     if len1 <= len2:
-#         lenmax = len1
-#     else:
-#         lenmax = len2 
-#     pathrootto1 = np.array(path1toroot)[::-1]
-#     pathrootto2 = np.array(path2toroot)[::-1]
-#     cond = np.where(pathrootto1[:lenmax] != pathrootto2[:lenmax])[0]
-#     if len(cond) != 0:
-#         splitnode = cond[0]-1
-#     else:
-#         splitnode = 0
-#     path1to2 = pathrootto1[splitnode:][::-1].tolist() + pathrootto2[splitnode+1:].tolist()
-#     return path1to2
-
-
 def findpath(id1: int, id2: int, tree: dict) -> list:
     """
     Finds the unique path between two nodes in a tree.
@@ -221,27 +186,6 @@ def findpath(id1: int, id2: int, tree: dict) -> list:
     return path1_to_lca + path2_to_lca
 
 
-# def get_path_weight(path: list, edge_dict: dict) -> float:
-#     """
-#     Finds the total weight of an input path in a graph.
-
-#     Parameters
-#     ----------
-#     path : list
-#         Path between points in a graph.
-#     edge_dict : dict
-#         Edge dictionary to easily find weights.
-    
-#     Returns
-#     -------
-#     weight : float
-#         Total weight of an input path.
-#     """
-#     weight = 0.
-#     for i in range(0, len(path)-1):
-#         weight += edge_dict[(path[i], path[i+1])]
-#     return weight
-
 def get_path_weight(path: list, edge_dict: dict) -> float:
     """
     Finds the total weight of an input path in a graph.
@@ -260,3 +204,128 @@ def get_path_weight(path: list, edge_dict: dict) -> float:
     """
     # Use sum with generator for efficient computation
     return sum(edge_dict[(path[i], path[i+1])] for i in range(len(path) - 1))
+
+
+def get_centrality(edge_idx: np.ndarray, Nnodes: int) -> np.ndarray:
+    """
+    Determines the nodes centrality in the graph.
+
+    Parameters
+    ----------
+    edge_idx : 2darray
+        Graph edge node indices.
+    Nnodes : int
+        Number of nodes.
+    
+    Returns
+    -------
+    centrality : array 
+        The centrality of a node in a tree.
+    """
+     
+    _id1 = np.copy(edge_idx[0])
+    _id2 = np.copy(edge_idx[1])
+
+    centrality = np.ones(Nnodes)
+
+    while len(_id1) > 1:
+        degree = src.getgraphdegree(i1=_id1, i2=_id2, nnodes=Nnodes)
+        deg_id1, deg_id2 = degree[_id1], degree[_id2]
+        cond = np.where((deg_id1 == 1.))[0]
+        centrality = src.add2centrality(centrality, _id2[cond], _id1[cond])
+        cond = np.where((deg_id2 == 1.))[0]
+        centrality = src.add2centrality(centrality, _id1[cond], _id2[cond])
+        cond = np.where((deg_id1 != 1.) & (deg_id2 != 1.))[0]
+        _id1, _id2 = _id1[cond], _id2[cond]
+    
+    if len(_id1) == 1:
+        if centrality[_id1[0]] >= centrality[_id2[0]]:
+            centrality[_id1[0]] += centrality[_id2[0]]
+        else:
+            centrality[_id2[0]] += centrality[_id1[0]]
+
+    return centrality
+
+
+def get_spine(root: int, tree: dict, centrality: np.ndarray) -> list:
+    """
+    Descend a tree from a given root index along the main spine, i.e. the path with the largest nodes.
+
+    Parameters
+    ----------
+    root : int
+        Root index, for the very main spine this index is the central of the tree.
+    tree : dict
+        Graph structured in a tree.
+    centrality : array 
+        The centrality of a node in a tree.
+
+    Returns
+    -------
+    spine : list
+        Spine indices.
+    """
+    spine = [root]
+    next2visit = spine[-1]
+    while tree[next2visit]['children'] != None:
+        if len(tree[next2visit]['children']) == 1:
+            spine.append(tree[next2visit]['children'][0])
+        else:
+            nextidx = tree[next2visit]['children'][np.argmax(centrality[tree[next2visit]['children']])]
+            spine.append(nextidx)
+        next2visit = spine[-1]
+    return spine
+
+
+def get_spines(tree: dict, centrality: np.ndarray) -> Tuple[list, np.ndarray]:
+    """
+    Returns spines the spines of a graph tree structure. Ordered in spine hierarchy, 
+    where the first spine is the backbone of the tree.
+
+    Parameters
+    ----------
+    tree : dict
+        Graph structured in a tree.
+    centrality : array 
+        The centrality of a node in a tree.
+
+    Returns
+    -------
+    spines : list
+        A list of spines.
+    slevel : np.ndarray
+        The spine level for each node.
+    """
+    Nnodes = len(centrality)
+    mask = np.zeros(Nnodes)
+    slevel = np.zeros(Nnodes)
+    spines = []
+    Nvisited = 0
+    # Compute main spine
+    # Find main branch from central
+    _central = np.argmax(centrality)
+    spine = get_spine(_central, tree, centrality)
+    mask[np.array(spine)] = 1.
+    # Find main branch going in the opposite direction along the path with the child 
+    # node from the root node that has the second highest centrality
+    cond = np.where(mask == 0.)[0]
+    _central = cond[np.argmax(centrality[cond])]
+    _spine = get_spine(_central, tree, centrality)
+    mask[np.array(_spine)] = 1.
+    # Merge two spines into one
+    spine = np.array(spine)[::-1].tolist() + _spine
+    spines.append(spine)
+    Nvisited += len(spine)
+    slevel[np.array(spine)] = 1
+    # Compute sub spines
+    _slevel = 2
+    while Nvisited < Nnodes:
+        cond = np.where(mask == 0.)[0]
+        _central = cond[np.argmax(centrality[cond])]
+        spine = get_spine(_central, tree, centrality)
+        spines.append(spine)
+        mask[np.array(spine)] = 1.
+        slevel[np.array(spine)] = _slevel
+        _slevel += 1
+        Nvisited += len(spine)
+    return spines, slevel
