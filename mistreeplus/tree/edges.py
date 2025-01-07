@@ -1,7 +1,9 @@
 import numpy as np
 
 
-def get_edge_dict(edge_idx: np.ndarray, wei: np.ndarray, directed: bool = False) -> dict:
+def get_edge_dict(
+    edge_idx: np.ndarray, wei: np.ndarray, directed: bool = False
+) -> dict:
     """
     Returns the edge dictionary for easier weight finding.
 
@@ -12,9 +14,9 @@ def get_edge_dict(edge_idx: np.ndarray, wei: np.ndarray, directed: bool = False)
     wei : array
         Weight for each graph edge.
     directed : bool, optional
-        Is the input graph directed? If yes then weight directions and 
+        Is the input graph directed? If yes then weight directions and
         signs are flipped when rotated.
-    
+
     Returns
     -------
     edge_dict : dict

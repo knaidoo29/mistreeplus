@@ -14,7 +14,7 @@ def get_groups(adjacents_idx: List[int], Nnodes: int, root: int = 0):
         Number of nodes.
     root : int, optional
         The root of the tree, by default set to the first node.
-    
+
     Returns
     -------
     groupid : array
@@ -34,33 +34,35 @@ def get_groups(adjacents_idx: List[int], Nnodes: int, root: int = 0):
 
         if invoked_root == False:
             Nvisited += 1
-            visited[root] = 1.
+            visited[root] = 1.0
             groupid[root] = currentid
             _adjacents_idx = np.unique(np.array(adjacents_idx[root]))
             _visited = visited[_adjacents_idx]
-            cond = np.where(_visited != 1.)[0]
+            cond = np.where(_visited != 1.0)[0]
             tovisitnext = _adjacents_idx[cond]
             invoked_root = True
 
         elif len(tovisitnext) == 0:
-            cond = np.where(visited == 0.)[0]
+            cond = np.where(visited == 0.0)[0]
             _root = cond[0]
             currentid += 1
             Nvisited += 1
-            visited[_root] = 1.
+            visited[_root] = 1.0
             groupid[_root] = currentid
             _adjacents_idx = np.unique(np.array(adjacents_idx[_root]))
             _visited = visited[_adjacents_idx]
-            cond = np.where(_visited != 1.)[0]
+            cond = np.where(_visited != 1.0)[0]
             tovisitnext = _adjacents_idx[cond]
-        
+
         while len(tovisitnext) > 0:
             Nvisited += len(tovisitnext)
-            visited[tovisitnext] = 1.
+            visited[tovisitnext] = 1.0
             groupid[tovisitnext] = currentid
-            _adjacents_idx = np.unique(np.concatenate([adjacents_idx[i] for i in tovisitnext]))
+            _adjacents_idx = np.unique(
+                np.concatenate([adjacents_idx[i] for i in tovisitnext])
+            )
             _visited = visited[_adjacents_idx]
-            cond = np.where(_visited != 1.)[0]
+            cond = np.where(_visited != 1.0)[0]
             tovisitnext = _adjacents_idx[cond]
 
     return groupid

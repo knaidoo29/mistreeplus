@@ -6,10 +6,8 @@ from .. import src
 
 
 def get_adjacents(
-        edge_idx: np.ndarray, 
-        wei: np.ndarray, 
-        Nnodes: int
-    ) -> Tuple[List[int], List[float]]:
+    edge_idx: np.ndarray, wei: np.ndarray, Nnodes: int
+) -> Tuple[List[int], List[float]]:
     """
     Returns the adjacency list (the neighbours to each node in a graph) from a graph given in array format.
 
@@ -21,11 +19,11 @@ def get_adjacents(
         Weight for each graph edge.
     Nnodes : int
         Number of nodes.
-    
+
     Returns
     -------
     adjacents_idx : list
-        List containing each adjacent node idx in the graph or neighbours.
+        List containing each adjacent node index in the graph or neighbours.
     adjacents_wei : list
         List containing each adjacent node weight in the graph or neighbours.
     """
@@ -45,12 +43,101 @@ def get_adjacents(
     return adjacents_idx, adjacents_wei
 
 
+def find_adjacent2root_by_N(
+    adjacents_idx: List[int], Npoint: int, root: int
+) -> List[int]:
+    """
+    Finds the paths for points N points away in the graph from the root node.
+
+    Parameters
+    ----------
+    adjacents_idx : list
+        List containing each adjacent node index in the graph or neighbours.
+    Npoint : int
+        N-point distance to the root node.
+    root : int
+        Root node.
+
+    Returns
+    -------
+    adjacent_paths : list
+        N-point paths in the graph.
+    """
+    adjacent_paths = [[root, adjacents] for adjacents in adjacents_idx[root]]
+    count = 2
+    while count < Npoint + 1:
+        for i in range(0, len(adjacent_paths)):
+            neigh = adjacents_idx[adjacent_paths[i][-1]]
+            neigh = [x for x in neigh if x not in adjacent_paths[i][:-1]]
+            adjacent_paths[i].append(neigh)
+        _adjacent_paths = []
+        for i in range(0, len(adjacent_paths)):
+            for j in range(0, len(adjacent_paths[i][-1])):
+                _adjacent_paths.append(
+                    adjacent_paths[i][:-1] + [adjacent_paths[i][-1][j]]
+                )
+        adjacent_paths = _adjacent_paths
+        count += 1
+    return adjacent_paths
+
+
+def find_adjacent2all_by_N(adjacents_idx: List[int], Npoint: int) -> np.ndarray:
+    """
+    Finds the paths for points N-points away in the graph from all nodes.
+
+    Parameters
+    ----------
+    adjacents_idx : list
+        List containing each adjacent node index in the graph or neighbours.
+    Npoint : int
+        N-point distance to the root node.
+
+    Returns
+    -------
+    adjacent_paths : array
+        N-point paths in the graph.
+    """
+    adjacent_paths = [
+        find_adjacent2root_by_N(adjacents_idx, Npoint, root)
+        for root in range(0, len(adjacents_idx))
+    ]
+    adjacent_paths = np.concatenate(adjacent_paths)
+    return adjacent_paths
+
+
+def adjacent_path2weight(adjacent_paths: np.ndarray, edge_dict: dict) -> np.ndarray:
+    """
+    Get path weight for adjacent paths in a graph.
+
+    Parameters
+    ----------
+    adjacent_paths : array
+        N-point paths in the graph.
+    edge_dict : dict
+        Edge dictionary to easily find weights.
+
+    Returns
+    -------
+    pathweight : array
+        Weight for each path.
+    """
+    pathweight = np.array(
+        [
+            np.sum(
+                [
+                    edge_dict[(adjacent_paths[i][j], adjacent_paths[i][j + 1])]
+                    for j in range(0, len(adjacent_paths[i]) - 1)
+                ]
+            )
+            for i in range(0, len(adjacent_paths))
+        ]
+    )
+    return pathweight
+
+
 def adjacents2tree(
-        adjacents_idx: List[int], 
-        Nnodes: int, 
-        root: int = 0,
-        sanity: bool = True
-    ) -> dict:
+    adjacents_idx: List[int], Nnodes: int, root: int = 0, sanity: bool = True
+) -> dict:
     """
     Constructs a dictionary tree from a given graph and it's node adjacents.
 
@@ -63,9 +150,9 @@ def adjacents2tree(
     root : int, optional
         The root of the tree, by default set to the first node.
     sanity : bool, optional
-        Tests whether the input graph is spanning. This should only be turned off 
+        Tests whether the input graph is spanning. This should only be turned off
         if you already know the input graph is spanning.
-    
+
     Returns
     -------
     tree : dict
@@ -73,16 +160,15 @@ def adjacents2tree(
     """
     if sanity:
         groupid = groups.get_groups(adjacents_idx, Nnodes, root=root)
-        assert len(np.unique(groupid)) == 1, "Graph is not spanning, since it produces more than one group."
-    
+        assert (
+            len(np.unique(groupid)) == 1
+        ), "Graph is not spanning, since it produces more than one group."
+
     tree = {}
     visited = np.zeros(Nnodes)
 
-    tree[root] = {
-        'parent': None, 
-        'children': adjacents_idx[root]
-    }
-    visited[root] = 1.
+    tree[root] = {"parent": None, "children": adjacents_idx[root]}
+    visited[root] = 1.0
 
     visitparent = []
     visitchild = []
@@ -99,31 +185,29 @@ def adjacents2tree(
 
             parent = visitparent[i]
             children = visitchild[i]
-            
+
             for child in children:
-            
-                visited[child] = 1.
+
+                visited[child] = 1.0
                 _adjacents_idx = np.array(adjacents_idx[child])
                 _visited = visited[_adjacents_idx]
-                cond = np.where(_visited == 0.)[0]
-            
+                cond = np.where(_visited == 0.0)[0]
+
                 if len(cond) == 0:
-                    tree[child] = {
-                        'parent': parent, 'children': None
-                    }
+                    tree[child] = {"parent": parent, "children": None}
 
                 else:
                     tree[child] = {
-                        'parent': parent, 
-                        'children': _adjacents_idx[cond].tolist()
+                        "parent": parent,
+                        "children": _adjacents_idx[cond].tolist(),
                     }
 
                     _visitnextparent.append(child)
                     _visitnextchild.append(_adjacents_idx[cond])
-        
+
         visitparent = _visitnextparent
         visitchild = _visitnextchild
-    
+
     return tree
 
 
@@ -138,7 +222,7 @@ def findpath2root(id: int, tree: dict) -> list:
         Node index.
     tree : dict
         Graph structured in a tree.
-    
+
     Returns
     -------
     pathtoroot : list
@@ -146,8 +230,8 @@ def findpath2root(id: int, tree: dict) -> list:
     """
     _id = id
     path = [_id]
-    while tree[_id]['parent'] is not None:
-        _id = tree[_id]['parent']
+    while tree[_id]["parent"] is not None:
+        _id = tree[_id]["parent"]
         path.append(_id)
     return path
 
@@ -162,7 +246,7 @@ def findpath(id1: int, id2: int, tree: dict) -> list:
         Node indices.
     tree : dict
         Graph structured in a tree.
-    
+
     Returns
     -------
     list
@@ -179,8 +263,8 @@ def findpath(id1: int, id2: int, tree: dict) -> list:
     lca = next(node for node in path1 if node in path2_set)
 
     # Split paths at the LCA
-    path1_to_lca = path1[:path1.index(lca) + 1]
-    path2_to_lca = path2[:path2.index(lca)][::-1]  # Reverse to go from LCA to id2
+    path1_to_lca = path1[: path1.index(lca) + 1]
+    path2_to_lca = path2[: path2.index(lca)][::-1]  # Reverse to go from LCA to id2
 
     # Combine paths
     return path1_to_lca + path2_to_lca
@@ -196,14 +280,14 @@ def get_path_weight(path: list, edge_dict: dict) -> float:
         Path between points in a graph.
     edge_dict : dict
         Edge dictionary to easily find weights.
-    
+
     Returns
     -------
     weight : float
         Total weight of an input path.
     """
     # Use sum with generator for efficient computation
-    return sum(edge_dict[(path[i], path[i+1])] for i in range(len(path) - 1))
+    return sum(edge_dict[(path[i], path[i + 1])] for i in range(len(path) - 1))
 
 
 def get_centrality(edge_idx: np.ndarray, Nnodes: int) -> np.ndarray:
@@ -216,13 +300,13 @@ def get_centrality(edge_idx: np.ndarray, Nnodes: int) -> np.ndarray:
         Graph edge node indices.
     Nnodes : int
         Number of nodes.
-    
+
     Returns
     -------
-    centrality : array 
+    centrality : array
         The centrality of a node in a tree.
     """
-     
+
     _id1 = np.copy(edge_idx[0])
     _id2 = np.copy(edge_idx[1])
 
@@ -231,13 +315,13 @@ def get_centrality(edge_idx: np.ndarray, Nnodes: int) -> np.ndarray:
     while len(_id1) > 1:
         degree = src.getgraphdegree(i1=_id1, i2=_id2, nnodes=Nnodes)
         deg_id1, deg_id2 = degree[_id1], degree[_id2]
-        cond = np.where((deg_id1 == 1.))[0]
+        cond = np.where((deg_id1 == 1.0))[0]
         centrality = src.add2centrality(centrality, _id2[cond], _id1[cond])
-        cond = np.where((deg_id2 == 1.))[0]
+        cond = np.where((deg_id2 == 1.0))[0]
         centrality = src.add2centrality(centrality, _id1[cond], _id2[cond])
-        cond = np.where((deg_id1 != 1.) & (deg_id2 != 1.))[0]
+        cond = np.where((deg_id1 != 1.0) & (deg_id2 != 1.0))[0]
         _id1, _id2 = _id1[cond], _id2[cond]
-    
+
     if len(_id1) == 1:
         if centrality[_id1[0]] >= centrality[_id2[0]]:
             centrality[_id1[0]] += centrality[_id2[0]]
@@ -257,7 +341,7 @@ def get_spine(root: int, tree: dict, centrality: np.ndarray) -> list:
         Root index, for the very main spine this index is the central of the tree.
     tree : dict
         Graph structured in a tree.
-    centrality : array 
+    centrality : array
         The centrality of a node in a tree.
 
     Returns
@@ -267,11 +351,13 @@ def get_spine(root: int, tree: dict, centrality: np.ndarray) -> list:
     """
     spine = [root]
     next2visit = spine[-1]
-    while tree[next2visit]['children'] != None:
-        if len(tree[next2visit]['children']) == 1:
-            spine.append(tree[next2visit]['children'][0])
+    while tree[next2visit]["children"] != None:
+        if len(tree[next2visit]["children"]) == 1:
+            spine.append(tree[next2visit]["children"][0])
         else:
-            nextidx = tree[next2visit]['children'][np.argmax(centrality[tree[next2visit]['children']])]
+            nextidx = tree[next2visit]["children"][
+                np.argmax(centrality[tree[next2visit]["children"]])
+            ]
             spine.append(nextidx)
         next2visit = spine[-1]
     return spine
@@ -279,14 +365,14 @@ def get_spine(root: int, tree: dict, centrality: np.ndarray) -> list:
 
 def get_spines(tree: dict, centrality: np.ndarray) -> Tuple[list, np.ndarray]:
     """
-    Returns spines the spines of a graph tree structure. Ordered in spine hierarchy, 
+    Returns spines the spines of a graph tree structure. Ordered in spine hierarchy,
     where the first spine is the backbone of the tree.
 
     Parameters
     ----------
     tree : dict
         Graph structured in a tree.
-    centrality : array 
+    centrality : array
         The centrality of a node in a tree.
 
     Returns
@@ -305,13 +391,13 @@ def get_spines(tree: dict, centrality: np.ndarray) -> Tuple[list, np.ndarray]:
     # Find main branch from central
     _central = np.argmax(centrality)
     spine = get_spine(_central, tree, centrality)
-    mask[np.array(spine)] = 1.
-    # Find main branch going in the opposite direction along the path with the child 
+    mask[np.array(spine)] = 1.0
+    # Find main branch going in the opposite direction along the path with the child
     # node from the root node that has the second highest centrality
-    cond = np.where(mask == 0.)[0]
+    cond = np.where(mask == 0.0)[0]
     _central = cond[np.argmax(centrality[cond])]
     _spine = get_spine(_central, tree, centrality)
-    mask[np.array(_spine)] = 1.
+    mask[np.array(_spine)] = 1.0
     # Merge two spines into one
     spine = np.array(spine)[::-1].tolist() + _spine
     spines.append(spine)
@@ -320,11 +406,11 @@ def get_spines(tree: dict, centrality: np.ndarray) -> Tuple[list, np.ndarray]:
     # Compute sub spines
     _slevel = 2
     while Nvisited < Nnodes:
-        cond = np.where(mask == 0.)[0]
+        cond = np.where(mask == 0.0)[0]
         _central = cond[np.argmax(centrality[cond])]
         spine = get_spine(_central, tree, centrality)
         spines.append(spine)
-        mask[np.array(spine)] = 1.
+        mask[np.array(spine)] = 1.0
         slevel[np.array(spine)] = _slevel
         _slevel += 1
         Nvisited += len(spine)
