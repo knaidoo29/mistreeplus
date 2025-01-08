@@ -7,9 +7,17 @@
 | Repository    | https://github.com/knaidoo29/mistreeplus  |
 | Documentation | TBA                                       |
 
+## Why the +?
+
+``MiSTree+`` is a complete rewrite of the ``MiSTree`` ``python`` package, designed with the intent of being more flexible and powerful to its predecessor. ``MiSTree+`` includes methods for computing the MST with a Delaunay tesselation as well as providing new statistical methods for analysing the resulting tree, whether that be statistical or for finding topological features.
+
 ## Introduction
 
-The *minimum spanning tree* (MST), a graph constructed from a distribution of points, draws lines between pairs of points so that all points are linked in a single skeletal structure that contains no loops and has minimal total edge length. The MST has been used in a broad range of scientific fields such as particle physics, in astronomy and cosmology. Its success in these fields has been driven by its sensitivity to the spatial distribution of points and the patterns within. ``MiSTree+``, a public ``Python`` package, allows a user to construct the MST in a variety of coordinates systems, including Celestial coordinates used in astronomy. The package enables the MST to be constructed quickly by initially using a *k*-nearest neighbour graph (*k* NN, rather than a matrix of pairwise distances) which is then fed to Kruskal's algorithm to construct the MST. ``MiSTree+`` enables a user to measure the statistics of the MST and provides classes for binning the MST statistics (into histograms) and plotting the distributions. Applying the MST will enable the inclusion of high-order statistics information from the cosmic web which can provide additional information to improve cosmological parameter constraints. This information has not been fully exploited due to the computational cost of calculating *N*-point statistics. ``MiSTree+`` was designed to be used in cosmology but could be used in any field which requires extracting non-Gaussian information from point distributions.
+The *minimum spanning tree* (MST), a graph constructed from a distribution of points, draws lines between pairs of points so that all points are linked in a single skeletal structure that contains no loops and has minimal total edge length. The MST has been used in a broad range of scientific fields such as particle physics, in astronomy and cosmology. Its success in these fields has been driven by its sensitivity to the spatial distribution of points and the patterns within.
+
+``MiSTree+``, a public ``Python`` package, allows a user to construct the MST in a variety of coordinates systems, including celestial coordinates (RA and Dec) used in astronomy. The package enables the MST to be constructed quickly by initially using a *k*-nearest neighbour graph (*k* NN, rather than a matrix of pairwise distances) or Delaunay tesselation, which is then fed to Kruskal's algorithm to construct the MST. 
+
+``MiSTree+`` enables a user to measure the statistics of the MST and provides classes for binning the MST statistics (into histograms) and plotting the distributions. Applying the MST will enable the inclusion of high-order statistics information from the cosmic web which can provide additional information to improve cosmological parameter constraints. This information has not been fully exploited due to the computational cost of calculating *N*-point statistics. ``MiSTree+`` was designed to be used in cosmology but could be used in any field which requires extracting non-Gaussian information from point distributions.
 
 ## Dependencies
 
@@ -211,3 +219,28 @@ systems and the transformations from one coordinate system to another.
   - `randwalkcart3d` : Random walk simulation in 3D.
   - `usphererotate` : Rotates point on unit sphere.
   - `randwalkusphere` : Random walk simulation on a unit sphere.
+
+* `tree` : Functions for finding adjacent nodes, constructing tree dictionaries and finding paths in a tree.
+  - `get_adjacents` : Find the adjacent points to each node.
+  - `smooth_stat_with_graph` : Smoothes a statistics based on adjacent indices.
+  - `get_edge_dict` : Constructs an edge node dictionary to call weight values quickly.
+  - `get_groups` : Finds groups in a disconnected graph.
+  - `perc_from_root_by_N` : Finds percolation paths of length N from a defined root node.
+  - `perc_from_all_by_N` : Finds percolation paths of length N from all nodes.
+  - `percpath2weight` : Finds the weight of percolation paths.
+  - `percpath2percends` : Finds the ends of each percolation path.
+  - `percend_dist2D` : Finds the distance of percolation path ends in 2D.
+  - `percend_dist3D` : Finds the distance of percolation path ends in 2D.
+  - `adjacents2tree` : Converts adjacents list to a tree structured dictionary.
+  - `findpath2root` : Finds the path for a node to the root node of a tree.
+  - `findpath` : Finds the path across a tree between any points on a node.
+  - `get_path_weight` : Finds the weight of a path.
+  - `get_centrality` : Defines the centrality of a graph.
+  - `get_spine` : Finds the spine from a specific starting node, determined by its centrality.
+  - `get_spines` : Finds the spines of a given tree.
+
+
+## Support
+
+* Bugs and issues should be reported via github issues [here](https://github.com/knaidoo29/mistreeplus/issues).
+* Suggestion for more functions or new statistics can be emailed to _krishna.naidoo.11@ucl.ac.uk_.
