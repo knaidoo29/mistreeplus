@@ -158,9 +158,9 @@ def generate_levy_flight(
 def generate_adj_levy_flight(
     size: int,
     t0: float = 0.325,
-    ts: float = 0.01,
+    ts: float = 0.015,
     alpha: float = 1.5,
-    beta: float = 0.43,
+    beta: float = 0.45,
     gamma: float = 1.3,
     start: Optional[np.ndarray] = None,
     mode: str = "2D",
