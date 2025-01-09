@@ -1,10 +1,10 @@
 import numpy as np
-from typing import List
+from typing import List, Optional
 
 from .. import coords
 
 def perc_from_root_by_N(
-    adjacents_idx: List[int], Npoint: int, root: int
+    adjacents_idx: List[int], Npoint: int, root: int, percpaths: Optional[List[int]] = None
 ) -> List[int]:
     """
     Finds the percolation paths for points N points away in the graph from the root node.
@@ -17,14 +17,19 @@ def perc_from_root_by_N(
         N-point distance to the root node.
     root : int
         Root node.
-
+    percpaths : list
+        N-point percolation paths in the graph, for precaculated paths up to some Npoint smaller than the choosen Npoint.
+    
     Returns
     -------
     percpaths : list
         N-point percolation paths in the graph.
     """
-    percpaths = [[root, adjacents] for adjacents in adjacents_idx[root]]
-    count = 2
+    if percpaths is None:
+        percpaths = [[root, adjacents] for adjacents in adjacents_idx[root]]
+        count = 2
+    else:
+        count = len(percpaths[0])
     while count < Npoint + 1:
         for i in range(0, len(percpaths)):
             neigh = adjacents_idx[percpaths[i][-1]]
@@ -41,7 +46,30 @@ def perc_from_root_by_N(
     return percpaths
 
 
-def perc_from_all_by_N(adjacents_idx: List[int], Npoint: int) -> np.ndarray:
+def _structure_percpaths(percpaths: np.ndarray) -> List[int]:
+    """
+    Restructures percpaths to retain root nested loop format.
+    
+    Parameters
+    ----------
+    percpaths : array
+        N-point percolation paths in the graph.
+    """
+    _percpaths = []
+    root = 0
+    __percpaths = []
+    for percpath in percpaths:
+        if percpath[0] == root:
+            __percpaths.append(percpath.tolist())
+        else:
+            _percpaths.append(__percpaths)
+            root += 1
+            __percpaths = []
+            __percpaths.append(percpath.tolist())
+    return _percpaths
+
+
+def perc_from_all_by_N(adjacents_idx: List[int], Npoint: int, percpaths: Optional[List[int]] = None) -> np.ndarray:
     """
     Finds the percolation paths for points N-points away in the graph from all nodes.
 
@@ -57,11 +85,18 @@ def perc_from_all_by_N(adjacents_idx: List[int], Npoint: int) -> np.ndarray:
     percpaths : array
         N-point percolation paths in the graph.
     """
-    percpaths = [
-        perc_from_root_by_N(adjacents_idx, Npoint, root)
-        for root in range(0, len(adjacents_idx))
-    ]
-    percpaths = np.concatenate(percpaths)
+    if percpaths is None:
+        _percpaths = [
+            perc_from_root_by_N(adjacents_idx, Npoint, root)
+            for root in range(0, len(adjacents_idx))
+        ]
+    else:
+        __percpaths = _structure_percpaths(percpaths)
+        _percpaths = [
+            perc_from_root_by_N(adjacents_idx, Npoint, root, percpaths=__percpaths[root])
+            for root in range(0, len(__percpaths))
+        ]
+    percpaths = np.concatenate(_percpaths)
     return percpaths
 
 

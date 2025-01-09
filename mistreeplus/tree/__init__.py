@@ -6,6 +6,7 @@ from .edges import get_edge_dict
 from .groups import get_groups
 
 from .percolate import perc_from_root_by_N
+from .percolate import _structure_percpaths
 from .percolate import perc_from_all_by_N
 from .percolate import percpath2weight
 from .percolate import percpath2percends
