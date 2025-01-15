@@ -298,7 +298,7 @@ def find_branches(
                 )
             )[0]
         elif mode == "3D":
-            xd, yd, zd = xdiv[i], y_div[i], z_div[i]
+            xd, yd, zd = xdiv[i], ydiv[i], zdiv[i]
             cond = np.where(
                 (total_mask == 1.0)
                 & (
@@ -314,7 +314,7 @@ def find_branches(
             cond = np.where(
                 (total_mask == 1.0)
                 & (
-                    (edge_phi[0] >= pd - dp / 2.0)
+                    (edgep[0] >= pd - dp / 2.0)
                     | (edgep[0] <= pd + dp / 2.0)
                     | (edget[0] >= td - dt / 2.0)
                     | (edget[0] <= td + dt / 2.0)
