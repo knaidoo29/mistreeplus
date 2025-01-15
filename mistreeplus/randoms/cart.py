@@ -1,4 +1,5 @@
 import numpy as np
+from typing import List
 
 
 def cart1d(size: int, xmin: float = 0.0, xmax: float = 1.0) -> np.ndarray:
@@ -24,7 +25,7 @@ def cart1d(size: int, xmin: float = 0.0, xmax: float = 1.0) -> np.ndarray:
 
 
 def cart2d(
-    size: int, mins: list[float] = [0.0, 0.0], maxs: list[float] = [1.0, 1.0]
+    size: int, mins: List[float] = [0.0, 0.0], maxs: List[float] = [1.0, 1.0]
 ) -> np.ndarray:
     """
     Generates a uniform set of random numbers in 2D.
@@ -53,7 +54,7 @@ def cart2d(
 
 
 def cart3d(
-    size: int, mins: list[float] = [0.0, 0.0, 0.0], maxs: list[float] = [1.0, 1.0, 1.0]
+    size: int, mins: List[float] = [0.0, 0.0, 0.0], maxs: List[float] = [1.0, 1.0, 1.0]
 ) -> np.ndarray:
     """
     Generates a uniform set of random numbers in 3D.

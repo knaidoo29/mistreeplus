@@ -68,8 +68,8 @@ def usphere_theta(
 
 def usphere_phitheta(
     size: int,
-    mins: list[float] = [0.0, 0.0],
-    maxs: list[float] = [2.0 * np.pi, np.pi],
+    mins: List[float] = [0.0, 0.0],
+    maxs: List[float] = [2.0 * np.pi, np.pi],
     units: str = "rads",
 ) -> Tuple[np.ndarray, np.ndarray]:
     """

@@ -92,8 +92,8 @@ def sphere_theta(
 
 def sphere_rphitheta(
     size: int,
-    mins: list[float] = [0.0, 0.0, 0.0],
-    maxs: list[float] = [1.0, 2.0 * np.pi, np.pi],
+    mins: List[float] = [0.0, 0.0, 0.0],
+    maxs: List[float] = [1.0, 2.0 * np.pi, np.pi],
     units: str = "rads",
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
