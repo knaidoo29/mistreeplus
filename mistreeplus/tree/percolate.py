@@ -96,6 +96,10 @@ def perc_from_all_by_N(adjacents_idx: List[int], Npoint: int, percpaths: Optiona
             perc_from_root_by_N(adjacents_idx, Npoint, root, percpaths=__percpaths[root])
             for root in range(0, len(__percpaths))
         ]
+    percpaths = []
+    for __percpaths in _percpaths:
+        if len(__percpaths) > 0:
+            percpaths.append(__percpaths)
     percpaths = np.concatenate(_percpaths)
     return percpaths
 
