@@ -1,3 +1,4 @@
+# Functions directly linked to coordinate system conversions, distances and vertices.
 from .cart import dist2D
 from .cart import dist3D
 
@@ -18,3 +19,9 @@ from .vertices import xy2vert
 from .vertices import vert2xy
 from .vertices import xyz2vert
 from .vertices import vert2xyz
+
+# # Grouping related functions
+# from .group import KDTree2D
+# from .group import KDTree3D
+# from .group import PinchGroup2D
+# from .group import PinchGroup3D
