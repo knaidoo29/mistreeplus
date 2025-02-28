@@ -100,7 +100,7 @@ def perc_from_all_by_N(adjacents_idx: List[int], Npoint: int, percpaths: Optiona
     for __percpaths in _percpaths:
         if len(__percpaths) > 0:
             percpaths.append(__percpaths)
-    percpaths = np.concatenate(_percpaths)
+    percpaths = np.concatenate(percpaths)
     return percpaths
 
 
