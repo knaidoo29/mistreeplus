@@ -246,4 +246,6 @@ systems and the transformations from one coordinate system to another.
 
 ## Versions
 
-* **Version 0 [07/03/25]**: Pre-release of the MiSTree+ python package.
+* **Version 0.1.0 [07/03/25]**: Pre-release of the MiSTree+ python package, with the addition of percolation statistics.
+
+* **Version 0.0.0 [09/12/24]**: First pre-release of MiSTree+, which retains all the functionalities of MiSTree but with a different framework in place. Tasks have been separated so that different aspects of the code are easier to manage and understand.
