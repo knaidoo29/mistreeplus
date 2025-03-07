@@ -9,7 +9,7 @@
 
 ## Why the +?
 
-``MiSTree+`` is a complete rewrite of the ``MiSTree`` ``python`` package, designed with the intent of being more flexible and powerful to its predecessor ``MiSTree``. It includes methods for computing the MST with a Delaunay tesselation as well as providing new statistical methods for analysing the resulting tree, whether that be statistical or for finding topological features. We have opted for keeping ``MiSTree`` unchanged, hence the +, so that we can make broad changes without breaking code that was written with ``MiSTree``.
+``MiSTree+`` is a complete rewrite of the ``MiSTree`` ``python`` package, designed with the intent of being more flexible and powerful to its predecessor ``MiSTree``. It includes methods for computing the MST with a Delaunay tesselation as well as providing new statistical methods for analysing the resulting tree statistically or for topology. We have opted for maintaining ``MiSTree``, hence the ``+``, so that we can make broad changes without breaking exiting pipelines built around the original ``MiSTree``.
 
 ## Introduction
 
