@@ -243,3 +243,7 @@ systems and the transformations from one coordinate system to another.
 
 * Bugs and issues should be reported via github issues [here](https://github.com/knaidoo29/mistreeplus/issues).
 * Suggestion for more functions or new statistics can be emailed to _krishna.naidoo.11@ucl.ac.uk_.
+
+## Versions
+
+* **Version 0 [07/03/25]**: Pre-release of the MiSTree+ python package.
